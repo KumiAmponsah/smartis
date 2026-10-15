@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SMARTIS — Deeprock Ghana Limited</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#080c18;--surface:#0d1424;--surface2:#121a2e;--surface3:#172036;
+  --border:#1a2840;--border2:#243350;--accent:#00c8f0;--accent2:#0088cc;
+  --green:#00e087;--amber:#f5a800;--red:#ff3355;--purple:#a855f7;--teal:#00b4a0;
+  --text:#dde6f5;--muted:#5a6e8a;--dim:#2a3a52;--gold:#ffd700;
+  --rc:#00c8f0;--dd:#a855f7;--comp:#f5a800;--lv:#00b4a0;
+}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;overflow-x:hidden;}
+.mono{font-family:'JetBrains Mono',monospace;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--surface);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.75);}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+.fade-in{animation:fadeIn .3s ease forwards;}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.logo-name{font-size:15px;font-weight:800;letter-spacing:.5px;}
+.logo-sub{font-size:9px;color:var(--muted);letter-spacing:2px;font-family:'JetBrains Mono',monospace;}
+.logo-company{font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1px;}
+.dv{width:1px;height:36px;background:var(--border2);margin:0 10px;}
+.apill{display:flex;align-items:center;gap:5px;border-radius:5px;padding:4px 9px;font-size:9px;font-weight:700;letter-spacing:1px;font-family:'JetBrains Mono',monospace;}
+.live-badge{display:flex;align-items:center;gap:6px;background:rgba(0,224,135,.08);border:1px solid rgba(0,224,135,.2);border-radius:6px;padding:4px 11px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite;}
+.clock-wrap{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:right;}
+.conn-btn{background:var(--surface2);border:1px solid var(--border2);color:var(--accent);border-radius:6px;padding:5px 12px;font-size:9px;font-weight:700;cursor:pointer;font-family:'JetBrains Mono',monospace;letter-spacing:1px;transition:all .2s;}
+.conn-btn:hover{background:var(--accent)15;}
+.rbar{background:var(--surface2);border-bottom:1px solid var(--border);padding:5px 22px;display:flex;align-items:center;justify-content:space-between;}
+.rinfo{font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+.rbtn{background:none;border:1px solid var(--border2);color:var(--muted);border-radius:4px;padding:3px 9px;font-size:9px;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .2s;}
+.rbtn:hover{color:var(--accent);border-color:var(--accent)44;}
+.tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 22px;display:flex;overflow-x:auto;}
+.tab{background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;padding:13px 14px;font-size:11px;font-weight:600;color:var(--muted);font-family:'Space Grotesk',sans-serif;transition:all .2s;white-space:nowrap;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.page{padding:20px 22px;}
+.hidden{display:none!important;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;}
+.card-sm{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px;}
+.mb{margin-bottom:14px;}
+.st{display:flex;align-items:center;gap:8px;margin-bottom:13px;}
+.sb{width:3px;border-radius:2px;height:14px;}
+.sl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+.pill{display:inline-flex;align-items:center;border-radius:4px;padding:2px 7px;font-size:9px;font-weight:700;letter-spacing:.8px;font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+.bt{height:5px;background:var(--border);border-radius:3px;overflow:hidden;flex:1;}
+.bf{height:100%;border-radius:3px;transition:width .7s ease;}
+.kv{font-size:26px;font-weight:900;letter-spacing:-1px;line-height:1;margin-bottom:5px;}
+.kl{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:8px;}
+.kf{display:flex;justify-content:space-between;align-items:center;}
+.kt{font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+.ktr{font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+.dt{width:100%;border-collapse:collapse;}
+.dt th{padding:8px 10px;text-align:left;font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;}
+.dt td{padding:9px 10px;font-size:11px;border-bottom:1px solid var(--dim);vertical-align:middle;}
+.dt tr:last-child td{border-bottom:none;}
+.dt tr:hover td{background:var(--surface2);}
+.ac{background:var(--surface);border-radius:11px;padding:14px;cursor:pointer;transition:all .2s;}
+.ac:hover{background:var(--surface2);}
+.ac.sel{background:var(--surface2);}
+.ar{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.astr{width:3px;min-height:32px;border-radius:2px;flex-shrink:0;}
+.dp{background:var(--surface);border-radius:12px;padding:20px;margin-top:4px;}
+.hr2{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.hs{font-size:10px;color:var(--muted);text-transform:capitalize;font-family:'JetBrains Mono',monospace;flex-shrink:0;width:140px;}
+.ir{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
+.btn-p{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;border:none;border-radius:8px;padding:10px 22px;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.btn-p:hover{opacity:.85;}
+.btn-s{background:transparent;color:var(--accent);border:1px solid var(--accent)44;border-radius:7px;padding:9px 18px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-s:hover{background:var(--accent)12;}
+.btn-sm{background:rgba(0,200,240,.1);border:1px solid rgba(0,200,240,.25);color:var(--accent);border-radius:5px;padding:5px 11px;font-size:9px;font-weight:700;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .2s;}
+.btn-sm:hover{background:rgba(0,200,240,.22);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-day{border-radius:6px;padding:6px 4px;text-align:center;min-height:58px;font-size:9px;}
+.cal-hdr{font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;padding:4px 0;font-weight:700;}
+.cal-event{border-radius:3px;padding:2px 4px;font-size:7px;font-weight:700;font-family:'JetBrains Mono',monospace;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.roi-box{background:linear-gradient(135deg,rgba(0,224,135,.08),rgba(0,200,240,.05));border:1px solid rgba(0,224,135,.2);border-radius:12px;padding:18px 20px;}
+.roi-num{font-size:36px;font-weight:900;color:var(--green);letter-spacing:-2px;line-height:1;}
+.sr-hdr{background:linear-gradient(135deg,#0d1424,#172036);border:1px solid var(--border2);border-radius:12px;padding:20px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;}
+.loading{display:flex;align-items:center;justify-content:center;padding:80px;flex-direction:column;gap:14px;}
+.spinner{width:34px;height:34px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
+.badge-rc{background:rgba(0,200,240,.12);border:1px solid rgba(0,200,240,.3);color:var(--rc);}
+.badge-dd{background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);color:var(--dd);}
+.badge-comp{background:rgba(245,168,0,.12);border:1px solid rgba(245,168,0,.3);color:var(--comp);}
+.fleet-badge{border-radius:6px;padding:4px 10px;font-size:9px;font-weight:700;letter-spacing:1px;font-family:'JetBrains Mono',monospace;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:16px;width:100%;max-width:760px;max-height:90vh;overflow-y:auto;padding:30px;}
+.step{display:flex;gap:14px;margin-bottom:20px;}
+.snum{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;margin-top:2px;}
+.stitle{font-size:12px;font-weight:700;margin-bottom:4px;}
+.sdesc{font-size:11px;color:var(--muted);line-height:1.7;}
+.code{background:var(--bg);border:1px solid var(--border2);border-radius:7px;padding:9px 11px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);margin-top:6px;word-break:break-all;line-height:1.6;}
+.ui{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:7px;padding:10px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;transition:border .2s;margin-top:8px;}
+.ui:focus{border-color:var(--accent);}
+.tag{display:inline-block;background:var(--accent)18;color:var(--accent);border:1px solid var(--accent)30;border-radius:4px;padding:2px 7px;font-size:9px;font-weight:700;font-family:'JetBrains Mono',monospace;margin:2px;}
+.wn{background:rgba(245,168,0,.08);border:1px solid rgba(245,168,0,.22);border-radius:7px;padding:10px 12px;font-size:11px;line-height:1.6;margin-top:8px;}
+.ok{background:rgba(0,224,135,.08);border:1px solid rgba(0,224,135,.22);border-radius:7px;padding:10px 12px;font-size:11px;line-height:1.6;margin-top:8px;}
+.mdiv{height:1px;background:var(--border);margin:18px 0;}
+
+body.light-mode{
+  --bg:#F0F4F8;--surface:#FFFFFF;--surface2:#F7FAFC;--surface3:#EBF4FF;
+  --border:#D1DCE8;--border2:#B8CCE0;--accent:#0077AA;--accent2:#005588;
+  --green:#1A7A42;--amber:#C47D00;--red:#C0392B;--purple:#7D3AC1;--teal:#0E7A6A;
+  --text:#1A2332;--muted:#5A6A7A;--dim:#B0BEC8;--gold:#B8860B;
+  --rc:#0077AA;--dd:#7D3AC1;--comp:#C47D00;--lv:#0E7A6A;
+}
+body.light-mode .topbar,body.light-mode .tabs,body.light-mode .rbar{border-color:var(--border);}
+body.light-mode .card,body.light-mode .card-sm{box-shadow:0 1px 4px rgba(0,0,0,.06);}
+
+@media print{.topbar,.tabs,.rbar,.no-print{display:none!important;}.page{padding:0!important;}body{background:#fff!important;color:#000!important;}.card,.card-sm{background:#f9f9f9!important;border:1px solid #ddd!important;break-inside:avoid;}}
+</style>
+</head>
+<body>
+
+<!-- SETUP MODAL -->
+<div class="modal-overlay" id="setup-modal">
+<div class="modal">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+    <div style="width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;">⚙</div>
+    <div><div style="font-size:19px;font-weight:800;">Connect SMARTIS to Google Sheets</div><div style="font-size:11px;color:var(--muted);">Deeprock Ghana Limited — RC Rigs | DD Rigs | Compressors</div></div>
+  </div>
+  <div class="mdiv"></div>
+  <div class="step"><div class="snum">1</div><div>
+    <div class="stitle">Create your Google Sheet — name it <span style="color:var(--accent)">SMARTIS Data — Deeprock Ghana</span></div>
+    <div class="sdesc">Go to sheets.google.com → New spreadsheet. Create these 7 tabs (right-click a tab → Insert):</div>
+    <div style="margin-top:8px;"><span class="tag">RC_Rigs</span><span class="tag">DD_Rigs</span><span class="tag">Compressors</span><span class="tag">LightVehicles</span><span class="tag">WorkOrders</span><span class="tag">Spares</span><span class="tag">KPITargets</span><span class="tag">Technicians</span></div>
+  </div></div>
+  <div class="step"><div class="snum">2</div><div>
+    <div class="stitle">Paste column headers into Row 1 of each tab</div>
+    <div class="sdesc" style="margin-bottom:5px;"><strong style="color:var(--rc);">RC_Rigs tab:</strong></div>
+    <div class="code">ID | Name | Site | Hours | Availability | Status | Engine | Hydraulics | Track | RotationHead | RCSampleSystem | Electrical | ConnectedCompressor | LastPM | NextPM | HrsToNextPM | OpenWOs | MetresDrilled | ShiftTarget | CostPerHour</div>
+    <div class="sdesc" style="margin:8px 0 5px;"><strong style="color:var(--dd);">DD_Rigs tab:</strong></div>
+    <div class="code">ID | Name | Site | Hours | Availability | Status | Engine | Hydraulics | RotationHead | BeanPump | WirelineWinch | WaterPump | RodHandling | CoreBarrel | MastFeed | Electrical | LastPM | NextPM | HrsToNextPM | OpenWOs | MetresDrilled | ShiftTarget | CostPerHour | CoreRecovery</div>
+    <div class="sdesc" style="margin:8px 0 5px;"><strong style="color:var(--comp);">Compressors tab:</strong></div>
+    <div class="code">ID | Name | Make | Model | Site | AssignedTo | Hours | Availability | Status | Engine | AirEnd | OilSeparator | CoolingSystem | PressureValves | Electrical | LastPM | NextPM | HrsToNextPM | OpenWOs | CFM | WorkingPressure | CostPerHour</div>
+    <div class="sdesc" style="margin:8px 0 5px;"><strong style="color:var(--teal);">LightVehicles tab:</strong></div>
+    <div class="code">ID | Name | Type | Make | Model | Odometer | Availability | Status | Engine | Tyres | Brakes | Electrical | BodyChassis | Driver | Site | LastService | NextServiceKm | KmToNextService | RoadworthyExpiry | InsuranceExpiry | FireExtExpiry | FirstAidExpiry | PreStartCompliance | FuelL100km | CostPerKm | TyreTreadMm | OpenWOs</div>
+    <div class="sdesc" style="margin:8px 0 5px;"><strong style="color:var(--accent);">WorkOrders tab:</strong></div>
+    <div class="code">ID | AssetID | AssetType | Type | Priority | System | Description | Technician | RaisedDate | DueDate | Hours | Status | RootCause | DowntimeCost</div>
+    <div class="sdesc" style="margin:8px 0 5px;"><strong style="color:var(--accent);">Spares tab:</strong></div>
+    <div class="code">Name | PartNumber | Class | CurrentStock | MinStock | MaxStock | Status | UnitCost | Supplier | LeadTimeDays</div>
+    <div class="sdesc" style="margin:8px 0 5px;"><strong style="color:var(--accent);">KPITargets tab:</strong></div>
+    <div class="code">Metric | Value | Target | Trend | Status | Period</div>
+    <div class="sdesc" style="margin:8px 0 5px;"><strong style="color:var(--accent);">Technicians tab:</strong></div>
+    <div class="code">Name | Role | WOsCompleted | WOsOpen | HoursLogged | Specialisation | Status</div>
+    <div class="wn"><strong style="color:var(--amber);">⚠ Key values:</strong> RC Status: DRILLING/BREAKDOWN/PM DUE/STANDBY. DD Status: DRILLING/BREAKDOWN/PM DUE/STANDBY. Compressor Status: RUNNING/DOWN/PM DUE/STANDBY. WO AssetType: RC/DD/COMPRESSOR. WO Type: PM/CORRECTIVE/REACTIVE/PdM. ConnectedCompressor in RC_Rigs = the Compressor ID currently hosed to that rig (e.g. DGL-COMP01).</div>
+  </div></div>
+  <div class="step"><div class="snum">3</div><div>
+    <div class="stitle">Publish to web & paste your Spreadsheet ID</div>
+    <div class="sdesc"><strong style="color:var(--accent);">File → Share → Publish to web</strong> → Entire Document → CSV → Publish → Copy URL → Extract ID (long code between /d/ and /pub)</div>
+    <input class="ui" id="sheet-id-input" placeholder="Paste Spreadsheet ID here e.g. 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms"/>
+    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+      <button class="btn-p" onclick="connectSheet()">CONNECT & LOAD LIVE DATA ↗</button>
+      <button class="btn-s" onclick="loadDemo()">USE DEMO DATA</button>
+    </div>
+    <div class="ok"><strong style="color:var(--green);">✓ Once connected:</strong> Edit your Google Sheet → refresh this page → SMARTIS updates automatically. Auto-refreshes every 5 minutes. Your Spreadsheet ID is saved locally so you only need to enter it once.</div>
+  </div></div>
+  <div class="mdiv"></div>
+  <div style="font-size:10px;color:var(--muted);line-height:1.7;">Data is read directly from Google into your browser. Nothing passes through any third-party server. Keep your Spreadsheet ID private. Share only the HTML file with trusted team members.</div>
+</div>
+</div>
+
+<!-- MAIN APP -->
+<div id="main-app" class="hidden">
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="logo-icon">⚙</div>
+    <div><div class="logo-name">SMARTIS</div><div class="logo-sub">SHADRACK'S MAINTENANCE & RELIABILITY INTELLIGENCE SYSTEM</div><div class="logo-company">DEEPROCK GHANA LIMITED</div></div>
+    <div class="dv"></div>
+    <div style="display:flex;gap:6px;">
+      <div class="fleet-badge badge-rc">RC RIGS</div>
+      <div class="fleet-badge badge-dd">DD RIGS</div>
+      <div class="fleet-badge badge-comp">COMPRESSORS</div><div class="fleet-badge" style="background:rgba(0,180,160,.12);border:1px solid rgba(0,180,160,.3);color:var(--lv);">LIGHT VEHICLES</div>
+    </div>
+    <div class="dv"></div>
+    <div id="alert-pills" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="live-badge"><div class="live-dot" id="live-dot"></div><span style="font-size:9px;font-weight:700;font-family:'JetBrains Mono',monospace;" id="data-label">LIVE DATA</span></div>
+    <button class="conn-btn no-print" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">🌙 DARK</button><button class="conn-btn no-print" id="notif-btn" onclick="toggleNotifPanel()" style="position:relative;">🔔 <span id="notif-count" style="position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;border-radius:50%;width:14px;height:14px;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'JetBrains Mono',monospace;"></span></button><button class="conn-btn no-print" onclick="showSetup()">⚙ CONFIG</button>
+    <button class="conn-btn no-print" onclick="window.print()">🖨 PRINT</button>
+    <div class="clock-wrap"><div id="clock"></div><div style="font-size:9px;color:var(--dim);margin-top:1px;" id="date-disp"></div></div>
+  </div>
+</div>
+<div class="rbar no-print">
+  <span class="rinfo" id="last-refresh">—</span>
+  <div style="display:flex;gap:8px;align-items:center;"><span class="rinfo">Auto-refresh: 5 min</span><button class="rbtn" onclick="refreshData()">↺ REFRESH</button></div>
+</div>
+<div class="tabs no-print">
+  <button class="tab active" onclick="showTab('exec',this)">📊 Executive</button>
+  <button class="tab" onclick="showTab('overview',this)">🏠 Overview</button>
+  <button class="tab" onclick="showTab('rc',this)">🔵 RC Rigs</button>
+  <button class="tab" onclick="showTab('dd',this)">🟣 DD Rigs</button>
+  <button class="tab" onclick="showTab('comp',this)">🟡 Compressors</button><button class="tab" onclick="showTab('lv',this)">🟢 Light Vehicles</button>
+  <button class="tab" onclick="showTab('workorders',this)">📋 Work Orders</button>
+  <button class="tab" onclick="showTab('calendar',this)">📅 PM Calendar</button>
+  <button class="tab" onclick="showTab('kpis',this)">📈 KPIs</button>
+  <button class="tab" onclick="showTab('analytics',this)">🔬 Analytics</button>
+  <button class="tab" onclick="showTab('technicians',this)">👷 Technicians</button>
+  <button class="tab" onclick="showTab('spares',this)">🔩 Spares & Cost</button>
+  <button class="tab" onclick="showTab('roi',this)">💰 ROI</button>
+  <button class="tab" onclick="showTab('shift',this)">📝 Shift Report</button>
+</div>
+
+<!-- EXECUTIVE -->
+<div id="tab-exec" class="page fade-in">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+    <div><div style="font-size:20px;font-weight:800;">Executive Summary</div><div style="font-size:11px;color:var(--muted);">Deeprock Ghana Limited — Full Fleet — <span id="exec-date"></span></div></div>
+    <button class="btn-sm no-print" onclick="window.print()">🖨 Print Report</button>
+  </div>
+  <div class="g4 mb" id="exec-big"></div>
+  <div class="card mb"><div class="st"><div class="sb" style="background:var(--accent)"></div><span class="sl">Fleet Health — All Asset Types</span></div><div id="exec-strip"></div></div>
+  <div class="g3">
+    <div class="card"><div class="st"><div class="sb" style="background:var(--red)"></div><span class="sl">Critical Issues</span></div><div id="exec-critical"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--green)"></div><span class="sl">Achievements</span></div><div id="exec-wins"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--amber)"></div><span class="sl">Top Recommendations</span></div><div id="exec-recs"></div></div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div id="tab-overview" class="page fade-in hidden">
+  <div class="g4 mb" id="ov-kpis"></div>
+  <div class="g3">
+    <div class="card"><div class="st"><div class="sb" style="background:var(--accent)"></div><span class="sl">All Assets</span></div><div id="ov-fleet"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--red)"></div><span class="sl">Top Downtime Causes (MTD)</span></div><div id="ov-pareto"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--amber)"></div><span class="sl">Active Alerts</span></div><div id="ov-alerts"></div></div>
+  </div>
+  <div class="g3">
+    <div class="card-sm"><div class="kl">Fleet Availability % — Trend</div><svg id="sp-avail" width="100%" height="48" viewBox="0 0 260 48"></svg><div id="sp-avail-l" style="display:flex;justify-content:space-between;margin-top:3px;"></div></div>
+    <div class="card-sm"><div class="kl">Avg MTBF (hrs) — Trend</div><svg id="sp-mtbf" width="100%" height="48" viewBox="0 0 260 48"></svg><div id="sp-mtbf-l" style="display:flex;justify-content:space-between;margin-top:3px;"></div></div>
+    <div class="card-sm"><div class="kl">Reactive WO % — Trend</div><svg id="sp-react" width="100%" height="48" viewBox="0 0 260 48"></svg><div id="sp-react-l" style="display:flex;justify-content:space-between;margin-top:3px;"></div></div>
+  </div>
+</div>
+
+<!-- RC RIGS -->
+<div id="tab-rc" class="page fade-in hidden">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+    <div style="width:10px;height:10px;border-radius:50%;background:var(--rc);box-shadow:0 0 8px var(--rc);"></div>
+    <div style="font-size:17px;font-weight:800;">RC Drilling Rigs</div>
+    <div class="pill badge-rc">REVERSE CIRCULATION — EXTERNAL COMPRESSOR REQUIRED</div>
+  </div>
+  <div class="g4 mb" id="rc-summary"></div>
+  <div id="rc-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:14px;"></div>
+  <div id="rc-detail"></div>
+
+  <!-- CASCADE VISUAL -->
+  <div class="card" style="margin-top:14px;border-color:rgba(245,168,0,.3);">
+    <div class="st"><div class="sb" style="background:var(--comp)"></div><span class="sl">Live Compressor — RC Rig Connection Map</span></div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:14px;">Green line = compressor running and supplying air. Red line = compressor down — cascade failure — RC rig cannot drill.</div>
+    <div id="cascade-visual" style="overflow-x:auto;padding:10px 0;"></div>
+  </div>
+
+  <div class="card" style="margin-top:14px;border-color:rgba(245,168,0,.25);">
+    <div class="st"><div class="sb" style="background:var(--comp)"></div><span class="sl">Compressor — RC Rig Connection Table</span></div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:12px;">Each RC rig requires an external compressor connected via hoses. A compressor failure creates a cascade — the connected RC rig cannot drill. Both assets are flagged simultaneously.</div>
+    <div style="overflow-x:auto;"><table class="dt"><thead><tr><th>RC RIG</th><th>CONNECTED COMPRESSOR</th><th>MAKE / MODEL</th><th>COMP STATUS</th><th>CFM</th><th>PRESSURE</th><th>IMPACT</th></tr></thead><tbody id="rc-comp-table"></tbody></table></div>
+  </div>
+</div>
+
+<!-- DD RIGS -->
+<div id="tab-dd" class="page fade-in hidden">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+    <div style="width:10px;height:10px;border-radius:50%;background:var(--dd);box-shadow:0 0 8px var(--dd);"></div>
+    <div style="font-size:17px;font-weight:800;">Diamond Drill Rigs</div>
+    <div class="pill badge-dd">DIAMOND DRILLING — BEAN PUMP WATER CIRCULATION</div>
+  </div>
+  <div style="background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.2);border-radius:8px;padding:10px 14px;font-size:11px;color:var(--text);margin-bottom:14px;">
+    <strong style="color:var(--dd);">DD Rig Architecture:</strong> Diamond drill rigs use a <strong>bean pump</strong> for water/fluid circulation (no external compressor). Key tracked systems include the bean pump, wireline winch, water pump, rod handling, core barrel and mast & feed system in addition to engine, hydraulics and rotation head.
+  </div>
+  <div class="g4 mb" id="dd-summary"></div>
+  <div id="dd-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:14px;"></div>
+  <div id="dd-detail"></div>
+</div>
+
+<!-- COMPRESSORS -->
+<div id="tab-comp" class="page fade-in hidden">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+    <div style="width:10px;height:10px;border-radius:50%;background:var(--comp);box-shadow:0 0 8px var(--comp);"></div>
+    <div style="font-size:17px;font-weight:800;">External Compressors</div>
+    <div class="pill badge-comp">STANDALONE ASSETS — CONNECTED TO RC RIGS VIA HOSES</div>
+  </div>
+  <div style="background:rgba(245,168,0,.06);border:1px solid rgba(245,168,0,.2);border-radius:8px;padding:10px 14px;font-size:11px;color:var(--text);margin-bottom:14px;">
+    <strong style="color:var(--amber);">⚠ Fleet Architecture Note:</strong> Compressors are independent assets with their own service records, health panels and KPIs — separate from the RC rigs they supply air to. A compressor failure cascades to the connected RC rig. Track compressor hours and PM independently from the rig.
+  </div>
+  <div class="g4 mb" id="comp-summary"></div>
+  <div id="comp-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:14px;"></div>
+  <div id="comp-detail"></div>
+</div>
+
+<!-- WORK ORDERS -->
+<div id="tab-workorders" class="page fade-in hidden">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;"><div style="font-size:17px;font-weight:800;">Work Orders</div><button class="btn-p" onclick="openWOModal()" style="font-size:11px;padding:8px 18px;">+ CREATE NEW WO</button></div>
+  <div class="g4 mb" id="wo-summary"></div>
+  <div class="card mb no-print" style="padding:11px 14px;">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <span style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;">FILTER:</span>
+      <select id="wof-at" onchange="filterWOs()" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:5px;padding:4px 9px;font-size:11px;cursor:pointer;"><option value="">All Types</option><option>RC</option><option>DD</option><option>COMPRESSOR</option><option>LV</option></select>
+      <select id="wof-wt" onchange="filterWOs()" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:5px;padding:4px 9px;font-size:11px;cursor:pointer;"><option value="">All WO Types</option><option>PM</option><option>CORRECTIVE</option><option>REACTIVE</option><option>PdM</option></select>
+      <select id="wof-pr" onchange="filterWOs()" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:5px;padding:4px 9px;font-size:11px;cursor:pointer;"><option value="">All Priorities</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select>
+      <select id="wof-st" onchange="filterWOs()" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:5px;padding:4px 9px;font-size:11px;cursor:pointer;"><option value="">All Statuses</option><option>OPEN</option><option>IN PROGRESS</option><option>COMPLETED</option></select>
+      <button class="btn-sm" onclick="clearWOF()">CLEAR</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="st"><div class="sb" style="background:var(--accent)"></div><span class="sl">Work Order Register</span><span id="wo-count" style="font-size:9px;color:var(--muted);margin-left:8px;font-family:'JetBrains Mono',monospace;"></span></div>
+    <div style="overflow-x:auto;"><table class="dt"><thead><tr><th>WO #</th><th>ASSET</th><th>ASSET TYPE</th><th>WO TYPE</th><th>PRIORITY</th><th>SYSTEM</th><th>DESCRIPTION</th><th>TECH</th><th>DUE</th><th>HRS</th><th>DT COST</th><th>STATUS</th></tr></thead><tbody id="wo-tbody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- PM CALENDAR -->
+<div id="tab-calendar" class="page fade-in hidden">
+  <div style="font-size:17px;font-weight:800;margin-bottom:4px;">PM Schedule Calendar</div>
+  <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">All asset types — RC Rigs, DD Rigs and External Compressors</div>
+  <div class="g3 mb" id="cal-summary"></div>
+  <div class="card mb">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:10px;"><button class="btn-sm" onclick="prevMonth()">← PREV</button><span style="font-size:13px;font-weight:700;" id="cal-label"></span><button class="btn-sm" onclick="nextMonth()">NEXT →</button></div>
+      <div style="display:flex;gap:10px;align-items:center;font-size:9px;color:var(--muted);">
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--rc);margin-right:4px;"></span>RC PM</span>
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--dd);margin-right:4px;"></span>DD PM</span>
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--comp);margin-right:4px;"></span>Compressor PM</span>
+        <button class="btn-sm" onclick="goToday()">TODAY</button>
+      </div>
+    </div>
+    <div class="cal-grid" id="cal-hdrs"></div>
+    <div style="height:6px;"></div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+  <div class="card"><div class="st"><div class="sb" style="background:var(--amber)"></div><span class="sl">All Assets — PM Schedule</span></div>
+    <div style="overflow-x:auto;"><table class="dt"><thead><tr><th>ASSET ID</th><th>NAME</th><th>TYPE</th><th>NEXT PM</th><th>HRS TO DUE</th><th>LAST PM</th><th>STATUS</th></tr></thead><tbody id="cal-list"></tbody></table></div>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div id="tab-kpis" class="page fade-in hidden">
+  <div class="g4 mb" id="kpi-grid"></div>
+  <div class="g3">
+    <div class="card"><div class="st"><div class="sb" style="background:var(--purple)"></div><span class="sl">WO Type Breakdown</span></div><div id="maint-bd"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--accent)"></div><span class="sl">Availability by Asset Type</span></div><div id="avail-type"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--teal)"></div><span class="sl">Cost per Operating Hour</span></div><div id="cph-chart"></div></div>
+  </div>
+</div>
+
+<!-- ANALYTICS -->
+<div id="tab-analytics" class="page fade-in hidden">
+  <div class="g2 mb">
+    <div class="card">
+      <div class="st"><div class="sb" style="background:var(--purple)"></div><span class="sl">Bathtub Curve — Fleet Position</span></div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:10px;">Each dot = one asset plotted by operating hours. Shows where each asset sits on the reliability lifecycle curve.</div>
+      <svg id="bath-svg" width="100%" height="170" viewBox="0 0 500 170"></svg>
+      <div style="display:flex;justify-content:space-around;margin-top:8px;">
+        <div style="text-align:center;"><div style="font-size:9px;color:var(--red);font-family:'JetBrains Mono',monospace;font-weight:700;">INFANT MORTALITY</div><div style="font-size:9px;color:var(--muted);">0–1,000 hrs</div></div>
+        <div style="text-align:center;"><div style="font-size:9px;color:var(--green);font-family:'JetBrains Mono',monospace;font-weight:700;">USEFUL LIFE</div><div style="font-size:9px;color:var(--muted);">1,000–7,000 hrs</div></div>
+        <div style="text-align:center;"><div style="font-size:9px;color:var(--amber);font-family:'JetBrains Mono',monospace;font-weight:700;">WEAR-OUT</div><div style="font-size:9px;color:var(--muted);">&gt;7,000 hrs</div></div>
+      </div>
+    </div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--amber)"></div><span class="sl">Failure Mode Frequency</span></div><div id="fail-freq"></div></div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="st"><div class="sb" style="background:var(--accent)"></div><span class="sl">P-F Interval Tracker</span></div><div style="font-size:10px;color:var(--muted);margin-bottom:10px;">Time between detectable potential failure (P) and functional failure (F). Condition monitoring must occur within this window.</div><div id="pf-track"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--green)"></div><span class="sl">Remaining Useful Life — All Assets</span></div><div style="font-size:10px;color:var(--muted);margin-bottom:10px;">Based on operating hours and system condition ratings. Update condition data in Google Sheet regularly.</div><div id="rul-track"></div></div>
+  </div>
+</div>
+
+<!-- TECHNICIANS -->
+<div id="tab-technicians" class="page fade-in hidden">
+  <div class="g4 mb" id="tech-summary"></div>
+  <div class="g2">
+    <div class="card"><div class="st"><div class="sb" style="background:var(--accent)"></div><span class="sl">Team Performance Board</span></div><div id="tech-board"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--amber)"></div><span class="sl">Workload Distribution</span></div><div id="tech-wl"></div></div>
+  </div>
+</div>
+
+<!-- SPARES & COST -->
+<div id="tab-spares" class="page fade-in hidden">
+  <div class="g3 mb" id="spare-summary"></div>
+  <div class="card mb"><div class="st"><div class="sb" style="background:var(--red)"></div><span class="sl">Critical Stock Alerts — Immediate Action Required</span></div><div id="spare-alerts"></div></div>
+  <div class="g2">
+    <div class="card"><div class="st"><div class="sb" style="background:var(--green)"></div><span class="sl">Cost vs Budget (YTD)</span></div><div id="cost-bars"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--teal)"></div><span class="sl">Inventory Register</span></div><div style="overflow-x:auto;"><table class="dt"><thead><tr><th>PART</th><th>PART NO</th><th>CLASS</th><th>QTY</th><th>MIN</th><th>UNIT $</th><th>VALUE</th><th>STATUS</th></tr></thead><tbody id="spares-tbl"></tbody></table></div></div>
+  </div>
+</div>
+
+<!-- ROI -->
+<div id="tab-roi" class="page fade-in hidden">
+  <div style="font-size:17px;font-weight:800;margin-bottom:4px;">ROI Calculator & Budget Justification</div>
+  <div style="font-size:11px;color:var(--muted);margin-bottom:18px;">Build the financial case for the SMARTIS reliability program — Deeprock Ghana Limited</div>
+  <div class="g3 mb">
+    <div class="roi-box"><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:2px;margin-bottom:5px;">EST. ANNUAL SAVINGS</div><div class="roi-num" id="roi-savings">$0</div><div style="font-size:10px;color:var(--muted);margin-top:3px;">From reduced breakdowns & improved PM</div></div>
+    <div class="roi-box" style="background:linear-gradient(135deg,rgba(0,200,240,.08),rgba(168,85,247,.05));border-color:rgba(0,200,240,.2);"><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:2px;margin-bottom:5px;">DOWNTIME HRS PREVENTED</div><div class="roi-num" style="color:var(--accent);" id="roi-hours">0 hrs</div><div style="font-size:10px;color:var(--muted);margin-top:3px;">Projected reduction per year</div></div>
+    <div class="roi-box" style="background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(0,200,240,.05));border-color:rgba(168,85,247,.2);"><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:2px;margin-bottom:5px;">PAYBACK PERIOD</div><div class="roi-num" style="color:var(--purple);" id="roi-payback">0 months</div><div style="font-size:10px;color:var(--muted);margin-top:3px;">Full program payback</div></div>
+  </div>
+  <div class="card mb"><div class="st"><div class="sb" style="background:var(--gold)"></div><span class="sl">Input Your Real Numbers</span></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+      <div><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:5px;">COST PER DOWNTIME HOUR ($)</div><input type="number" id="roi-ch" value="8000" oninput="calcROI()" style="width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:6px;padding:9px 11px;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;outline:none;"/></div>
+      <div><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:5px;">BREAKDOWN EVENTS / YEAR</div><input type="number" id="roi-br" value="30" oninput="calcROI()" style="width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:6px;padding:9px 11px;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;outline:none;"/></div>
+      <div><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:5px;">AVG HRS PER BREAKDOWN</div><input type="number" id="roi-ah" value="6" oninput="calcROI()" style="width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:6px;padding:9px 11px;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;outline:none;"/></div>
+      <div><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:5px;">EXPECTED REDUCTION (%)</div><input type="number" id="roi-red" value="40" oninput="calcROI()" style="width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:6px;padding:9px 11px;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;outline:none;"/></div>
+      <div><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:5px;">IMPLEMENTATION COST ($)</div><input type="number" id="roi-ic" value="15000" oninput="calcROI()" style="width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:6px;padding:9px 11px;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;outline:none;"/></div>
+      <div><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:5px;">ANNUAL RUNNING COST ($)</div><input type="number" id="roi-rc" value="5000" oninput="calcROI()" style="width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:6px;padding:9px 11px;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;outline:none;"/></div>
+    </div>
+  </div>
+  <div class="card"><div class="st"><div class="sb" style="background:var(--green)"></div><span class="sl">Management Justification Statement</span></div><div id="roi-stmt"></div></div>
+</div>
+
+
+<!-- COSTS TAB -->
+<div id="tab-costs" class="page fade-in hidden">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div><div style="font-size:17px;font-weight:800;">Cost Tracker</div><div style="font-size:11px;color:var(--muted);">Actual vs Budget — All asset types — Current period</div></div>
+    <div id="cost-period-badge" style="font-size:9px;color:var(--amber);font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:1px;"></div>
+  </div>
+  <div class="g4 mb" id="cost-big"></div>
+  <div class="g2 mb">
+    <div class="card">
+      <div class="st"><div class="sb" style="background:var(--accent)"></div><span class="sl">Actual vs Budget by Category</span></div>
+      <div id="cost-avb"></div>
+    </div>
+    <div class="card">
+      <div class="st"><div class="sb" style="background:var(--purple)"></div><span class="sl">Spend by Asset Type</span></div>
+      <div id="cost-by-type"></div>
+      <div class="st" style="margin-top:20px;"><div class="sb" style="background:var(--amber)"></div><span class="sl">Maintenance Type Split</span></div>
+      <div id="cost-maint-split"></div>
+    </div>
+  </div>
+  <div class="card mb">
+    <div class="st"><div class="sb" style="background:var(--green)"></div><span class="sl">Cost per Operating Hour — All Assets</span></div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:12px;">Lower is better. Red bars indicate cost per hour above fleet average.</div>
+    <div id="cost-cph"></div>
+  </div>
+  <div class="card">
+    <div class="st"><div class="sb" style="background:var(--red)"></div><span class="sl">Budget Overrun Alerts</span></div>
+    <div id="cost-overrun"></div>
+  </div>
+</div>
+
+<!-- SHIFT REPORT -->
+<div id="tab-shift" class="page fade-in hidden">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+    <div><div style="font-size:17px;font-weight:800;">Shift Handover Report</div><div style="font-size:11px;color:var(--muted);">Auto-generated from live data — print and sign at shift end</div></div>
+    <button class="btn-sm no-print" onclick="window.print()">🖨 PRINT</button>
+  </div>
+  <div class="sr-hdr">
+    <div><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:2px;margin-bottom:3px;">SHIFT HANDOVER REPORT</div><div style="font-size:18px;font-weight:800;">Deeprock Ghana Limited</div><div style="font-size:11px;color:var(--muted);margin-top:2px;">RC & Diamond Drilling Fleet — Maintenance Division</div></div>
+    <div style="text-align:right;"><div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;" id="shift-date"></div><div style="font-size:11px;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-top:2px;">Prepared by: Shaddy — Maintenance Officer</div></div>
+  </div>
+  <div class="g4 mb" id="shift-kpis"></div>
+  <div class="g2 mb">
+    <div class="card"><div class="st"><div class="sb" style="background:var(--green)"></div><span class="sl">Completed This Shift</span></div><div id="shift-done"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--amber)"></div><span class="sl">Outstanding / Carry Forward</span></div><div id="shift-out"></div></div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="st"><div class="sb" style="background:var(--accent)"></div><span class="sl">Fleet Status at Shift End</span></div><div id="shift-fleet"></div></div>
+    <div class="card"><div class="st"><div class="sb" style="background:var(--purple)"></div><span class="sl">Handover Notes</span></div>
+      <textarea id="shift-notes" placeholder="Add handover notes — next shift priorities, parts follow-up, critical observations..." style="width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:7px;padding:11px;font-size:12px;font-family:'Space Grotesk',sans-serif;resize:vertical;min-height:100px;outline:none;line-height:1.6;"></textarea>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
+        <div><div style="font-size:9px;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;">OUTGOING TECHNICIAN SIGNATURE</div><div style="height:44px;border-bottom:1px solid var(--border2);"></div></div>
+        <div><div style="font-size:9px;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;">INCOMING TECHNICIAN SIGNATURE</div><div style="height:44px;border-bottom:1px solid var(--border2);"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LV TAB -->
+<div id="tab-lv" class="page fade-in hidden">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+    <div style="width:10px;height:10px;border-radius:50%;background:var(--lv);box-shadow:0 0 8px var(--lv);"></div>
+    <div style="font-size:17px;font-weight:800;">Light Vehicles</div>
+    <div class="pill" style="background:rgba(0,180,160,.12);border:1px solid rgba(0,180,160,.3);color:var(--lv);">FLEET VEHICLES — COMPLIANCE &amp; MAINTENANCE TRACKING</div>
+  </div>
+  <div class="g4 mb" id="lv-summary"></div>
+  <div id="lv-compliance-banner" class="mb"></div>
+  <div id="lv-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:14px;"></div>
+  <div id="lv-detail"></div>
+  <div class="g2" style="margin-top:14px;">
+    <div class="card">
+      <div class="st"><div class="sb" style="background:var(--lv)"></div><span class="sl">Pre-Start Inspection Compliance</span></div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:12px;">Mines require 100% pre-start completion before any vehicle moves. Any missed pre-start is a site safety violation.</div>
+      <div id="lv-prestart"></div>
+    </div>
+    <div class="card">
+      <div class="st"><div class="sb" style="background:var(--amber)"></div><span class="sl">Compliance Expiry Register</span></div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:12px;">Roadworthy, insurance, fire extinguisher and first aid kit expiry tracking. Red = expired. Amber = expiring within 30 days.</div>
+      <div id="lv-expiry"></div>
+    </div>
+  </div>
+  <div class="g2" style="margin-top:14px;">
+    <div class="card">
+      <div class="st"><div class="sb" style="background:var(--green)"></div><span class="sl">Fleet Performance KPIs</span></div>
+      <div id="lv-kpis"></div>
+    </div>
+    <div class="card">
+      <div class="st"><div class="sb" style="background:var(--accent)"></div><span class="sl">Full Fleet Register</span></div>
+      <div style="overflow-x:auto;"><table class="dt"><thead><tr><th>VEHICLE ID</th><th>TYPE</th><th>MAKE / MODEL</th><th>ODOMETER</th><th>NEXT SERVICE</th><th>ROADWORTHY</th><th>AVAIL %</th><th>STATUS</th></tr></thead><tbody id="lv-register"></tbody></table></div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+let sheetId='',selRC=null,selDD=null,selComp=null,calM=new Date().getMonth(),calY=new Date().getFullYear(),rTimer=null;
+let D={rc:[],dd:[],comp:[],lv:[],wo:[],spares:[],kpis:[],techs:[],costs:[]};let selLV=null;
+const DEMO={
+rc:[
+{ID:"DGL-RC01",Name:"ATLAS RC-01",Site:"Pit A Zone 3",Hours:4820,Availability:91,Status:"DRILLING",Engine:2,Hydraulics:2,Track:3,RotationHead:2,RCSampleSystem:2,Electrical:1,ConnectedCompressor:"DGL-COMP01",LastPM:"12 May 2026",NextPM:"08 Jun 2026",HrsToNextPM:180,OpenWOs:3,MetresDrilled:1240,ShiftTarget:1400,CostPerHour:41},
+{ID:"DGL-RC02",Name:"TITAN RC-02",Site:"Pit B Zone 1",Hours:7340,Availability:78,Status:"BREAKDOWN",Engine:4,Hydraulics:5,Track:4,RotationHead:3,RCSampleSystem:3,Electrical:4,ConnectedCompressor:"DGL-COMP02",LastPM:"28 Apr 2026",NextPM:"26 May 2026",HrsToNextPM:-180,OpenWOs:7,MetresDrilled:0,ShiftTarget:1200,CostPerHour:68},
+{ID:"DGL-RC03",Name:"VIPER RC-03",Site:"Pit A Zone 7",Hours:2210,Availability:96,Status:"DRILLING",Engine:1,Hydraulics:1,Track:2,RotationHead:1,RCSampleSystem:1,Electrical:1,ConnectedCompressor:"DGL-COMP03",LastPM:"19 May 2026",NextPM:"16 Jun 2026",HrsToNextPM:250,OpenWOs:1,MetresDrilled:1560,ShiftTarget:1500,CostPerHour:38},
+{ID:"DGL-RC04",Name:"COBRA RC-04",Site:"Workshop",Hours:5990,Availability:85,Status:"PM DUE",Engine:3,Hydraulics:2,Track:3,RotationHead:3,RCSampleSystem:2,Electrical:2,ConnectedCompressor:"DGL-COMP04",LastPM:"01 Apr 2026",NextPM:"01 Jun 2026",HrsToNextPM:-48,OpenWOs:4,MetresDrilled:890,ShiftTarget:1300,CostPerHour:52},
+{ID:"DGL-RC05",Name:"STORM RC-05",Site:"Pit C Zone 2",Hours:3450,Availability:93,Status:"DRILLING",Engine:2,Hydraulics:2,Track:2,RotationHead:2,RCSampleSystem:2,Electrical:2,ConnectedCompressor:"DGL-COMP05",LastPM:"10 May 2026",NextPM:"07 Jun 2026",HrsToNextPM:120,OpenWOs:2,MetresDrilled:1380,ShiftTarget:1400,CostPerHour:44},
+],
+dd:[
+{ID:"DGL-DD01",Name:"FALCON DD-01",Site:"Pit B Zone 4",Hours:3100,Availability:94,Status:"DRILLING",Engine:2,Hydraulics:2,RotationHead:2,BeanPump:2,WirelineWinch:1,WaterPump:2,RodHandling:2,CoreBarrel:3,MastFeed:2,Electrical:1,LastPM:"15 May 2026",NextPM:"12 Jun 2026",HrsToNextPM:220,OpenWOs:1,MetresDrilled:280,ShiftTarget:300,CostPerHour:55,CoreRecovery:94},
+{ID:"DGL-DD02",Name:"RANGER DD-02",Site:"Pit D Zone 1",Hours:5800,Availability:86,Status:"DRILLING",Engine:3,Hydraulics:3,RotationHead:3,BeanPump:3,WirelineWinch:2,WaterPump:3,RodHandling:3,CoreBarrel:2,MastFeed:3,Electrical:3,LastPM:"01 May 2026",NextPM:"29 May 2026",HrsToNextPM:-60,OpenWOs:4,MetresDrilled:210,ShiftTarget:280,CostPerHour:64,CoreRecovery:88},
+{ID:"DGL-DD03",Name:"HUNTER DD-03",Site:"Pit A Zone 9",Hours:1890,Availability:97,Status:"DRILLING",Engine:1,Hydraulics:1,RotationHead:1,BeanPump:1,WirelineWinch:1,WaterPump:1,RodHandling:2,CoreBarrel:1,MastFeed:1,Electrical:1,LastPM:"20 May 2026",NextPM:"17 Jun 2026",HrsToNextPM:280,OpenWOs:0,MetresDrilled:310,ShiftTarget:300,CostPerHour:48,CoreRecovery:97},
+{ID:"DGL-DD04",Name:"RAPTOR DD-04",Site:"Workshop",Hours:8900,Availability:72,Status:"STANDBY",Engine:5,Hydraulics:4,RotationHead:4,BeanPump:4,WirelineWinch:3,WaterPump:4,RodHandling:4,CoreBarrel:5,MastFeed:4,Electrical:5,LastPM:"10 Mar 2026",NextPM:"07 Apr 2026",HrsToNextPM:-480,OpenWOs:8,MetresDrilled:0,ShiftTarget:0,CostPerHour:88,CoreRecovery:0},
+{ID:"DGL-DD05",Name:"PHOENIX DD-05",Site:"Pit C Zone 5",Hours:4200,Availability:90,Status:"DRILLING",Engine:2,Hydraulics:3,RotationHead:2,BeanPump:3,WirelineWinch:2,WaterPump:2,RodHandling:2,CoreBarrel:2,MastFeed:2,Electrical:2,LastPM:"05 May 2026",NextPM:"02 Jun 2026",HrsToNextPM:-20,OpenWOs:3,MetresDrilled:255,ShiftTarget:300,CostPerHour:59,CoreRecovery:91},
+],
+comp:[
+{ID:"DGL-COMP01",Name:"KAESER M350",Make:"Kaeser",Model:"M350",Site:"Pit A Zone 3",AssignedTo:"DGL-RC01",Hours:4200,Availability:93,Status:"RUNNING",Engine:2,AirEnd:2,OilSeparator:2,CoolingSystem:2,PressureValves:1,Electrical:1,LastPM:"14 May 2026",NextPM:"11 Jun 2026",HrsToNextPM:160,OpenWOs:1,CFM:900,WorkingPressure:350,CostPerHour:18},
+{ID:"DGL-COMP02",Name:"SULLAIR 900XH",Make:"Sullair",Model:"900XH",Site:"Pit B Zone 1",AssignedTo:"DGL-RC02",Hours:6800,Availability:72,Status:"DOWN",Engine:5,AirEnd:4,OilSeparator:5,CoolingSystem:4,PressureValves:3,Electrical:4,LastPM:"20 Apr 2026",NextPM:"18 May 2026",HrsToNextPM:-280,OpenWOs:5,CFM:900,WorkingPressure:350,CostPerHour:72},
+{ID:"DGL-COMP03",Name:"ATLAS COPCO XRVS",Make:"Atlas Copco",Model:"XRVS 1000",Site:"Pit A Zone 7",AssignedTo:"DGL-RC03",Hours:1950,Availability:98,Status:"RUNNING",Engine:1,AirEnd:1,OilSeparator:1,CoolingSystem:1,PressureValves:1,Electrical:1,LastPM:"21 May 2026",NextPM:"18 Jun 2026",HrsToNextPM:260,OpenWOs:0,CFM:1000,WorkingPressure:365,CostPerHour:16},
+{ID:"DGL-COMP04",Name:"KAESER M250",Make:"Kaeser",Model:"M250",Site:"Workshop",AssignedTo:"DGL-RC04",Hours:5100,Availability:88,Status:"PM DUE",Engine:3,AirEnd:3,OilSeparator:2,CoolingSystem:3,PressureValves:2,Electrical:2,LastPM:"05 Apr 2026",NextPM:"03 Jun 2026",HrsToNextPM:-30,OpenWOs:2,CFM:700,WorkingPressure:350,CostPerHour:24},
+{ID:"DGL-COMP05",Name:"SULLAIR 750 DTQ",Make:"Sullair",Model:"750 DTQ",Site:"Pit C Zone 2",AssignedTo:"DGL-RC05",Hours:3300,Availability:95,Status:"RUNNING",Engine:2,AirEnd:2,OilSeparator:1,CoolingSystem:2,PressureValves:1,Electrical:1,LastPM:"12 May 2026",NextPM:"09 Jun 2026",HrsToNextPM:130,OpenWOs:1,CFM:750,WorkingPressure:350,CostPerHour:20},
+],
+wo:[
+{ID:"WO-2248",AssetID:"DGL-RC02",AssetType:"RC",Type:"REACTIVE",Priority:"HIGH",System:"Hydraulic System",Description:"Hydraulic pump failure — complete loss of pressure left track",Technician:"Shaddy",RaisedDate:"02 Jun 2026",DueDate:"03 Jun 2026",Hours:6,Status:"IN PROGRESS",RootCause:"Seal failure — grease starvation",DowntimeCost:48000},
+{ID:"WO-2247",AssetID:"DGL-COMP02",AssetType:"COMPRESSOR",Type:"REACTIVE",Priority:"HIGH",System:"Air End / Engine",Description:"Compressor air end seized. RC-02 TITAN has no air supply — drilling stopped",Technician:"Augustine",RaisedDate:"02 Jun 2026",DueDate:"03 Jun 2026",Hours:8,Status:"IN PROGRESS",RootCause:"Oil separator blocked — oil starvation to air end",DowntimeCost:64000},
+{ID:"WO-2246",AssetID:"DGL-DD02",AssetType:"DD",Type:"CORRECTIVE",Priority:"HIGH",System:"Bean Pump",Description:"Bean pump seal failure — water circulation lost — drilling stopped",Technician:"Stephen",RaisedDate:"01 Jun 2026",DueDate:"03 Jun 2026",Hours:5,Status:"OPEN",RootCause:"Seal wear — PM overdue",DowntimeCost:32000},
+{ID:"WO-2245",AssetID:"DGL-RC04",AssetType:"RC",Type:"PM",Priority:"HIGH",System:"Full Service 500hr",Description:"500-hour scheduled service — track, hydraulics, RC sample, all systems",Technician:"Shaddy",RaisedDate:"01 Jun 2026",DueDate:"04 Jun 2026",Hours:8,Status:"OPEN",RootCause:"",DowntimeCost:0},
+{ID:"WO-2244",AssetID:"DGL-DD05",AssetType:"DD",Type:"PM",Priority:"MEDIUM",System:"Bean Pump & Water System",Description:"250hr service — bean pump seal check, water pump filter, wireline inspection",Technician:"Augustine",RaisedDate:"30 May 2026",DueDate:"05 Jun 2026",Hours:4,Status:"OPEN",RootCause:"",DowntimeCost:0},
+{ID:"WO-2243",AssetID:"DGL-DD04",AssetType:"DD",Type:"CORRECTIVE",Priority:"HIGH",System:"Core Barrel & Rod Handling",Description:"Core barrel worn — core recovery below 60%. Rod handling bearing seized",Technician:"Stephen",RaisedDate:"28 May 2026",DueDate:"05 Jun 2026",Hours:10,Status:"IN PROGRESS",RootCause:"Age — 8900 hrs. Major overhaul required",DowntimeCost:80000},
+{ID:"WO-2242",AssetID:"DGL-COMP04",AssetType:"COMPRESSOR",Type:"PM",Priority:"HIGH",System:"Full Service 250hr",Description:"250hr PM overdue — oil change, separator check, belt tension, safety valves",Technician:"Shaddy",RaisedDate:"02 Jun 2026",DueDate:"04 Jun 2026",Hours:4,Status:"OPEN",RootCause:"",DowntimeCost:0},
+{ID:"WO-2241",AssetID:"DGL-RC01",AssetType:"RC",Type:"CORRECTIVE",Priority:"MEDIUM",System:"RC Sample System",Description:"Cyclone inlet seal worn — sample contamination at split",Technician:"Augustine",RaisedDate:"31 May 2026",DueDate:"06 Jun 2026",Hours:2,Status:"OPEN",RootCause:"Normal wear",DowntimeCost:0},
+{ID:"WO-2240",AssetID:"DGL-DD01",AssetType:"DD",Type:"PdM",Priority:"LOW",System:"Wireline Winch",Description:"Wireline cable wear advisory — drum measurement and cable condition check",Technician:"Stephen",RaisedDate:"30 May 2026",DueDate:"12 Jun 2026",Hours:1,Status:"OPEN",RootCause:"Condition monitoring",DowntimeCost:0},
+{ID:"WO-2239",AssetID:"DGL-COMP03",AssetType:"COMPRESSOR",Type:"PM",Priority:"LOW",System:"Electrical Controls",Description:"Sensor calibration — pressure transducer and temperature probe",Technician:"Shaddy",RaisedDate:"28 May 2026",DueDate:"10 Jun 2026",Hours:2,Status:"COMPLETED",RootCause:"",DowntimeCost:0},
+{ID:"WO-2238",AssetID:"DGL-RC03",AssetType:"RC",Type:"PM",Priority:"LOW",System:"Lubrication",Description:"250hr greasing — all idlers, sprockets, mast pivot, oscillation pins",Technician:"Augustine",RaisedDate:"27 May 2026",DueDate:"04 Jun 2026",Hours:3,Status:"COMPLETED",RootCause:"",DowntimeCost:0},
+{ID:"WO-2237",AssetID:"DGL-DD03",AssetType:"DD",Type:"PM",Priority:"LOW",System:"250hr Full Service",Description:"250hr — engine oil, filters, bean pump check, rod inspection, core barrel",Technician:"Stephen",RaisedDate:"26 May 2026",DueDate:"05 Jun 2026",Hours:4,Status:"COMPLETED",RootCause:"",DowntimeCost:0},
+],
+spares:[
+{Name:"Hydraulic Return Filter Element",PartNumber:"HYD-4421",Class:"A",CurrentStock:0,MinStock:2,MaxStock:6,Status:"STOCK-OUT",UnitCost:180,Supplier:"Hydraulic Systems GH",LeadTimeDays:1},
+{Name:"Bean Pump Seal Kit (DD Rigs)",PartNumber:"BP-2209",Class:"A",CurrentStock:1,MinStock:3,MaxStock:8,Status:"BELOW MIN",UnitCost:420,Supplier:"Drilling Supplies GH",LeadTimeDays:3},
+{Name:"Compressor Oil Separator Element",PartNumber:"COMP-4401",Class:"A",CurrentStock:0,MinStock:2,MaxStock:5,Status:"STOCK-OUT",UnitCost:650,Supplier:"Kaeser GH / Sullair",LeadTimeDays:5},
+{Name:"Track Chain Master Link",PartNumber:"TRK-0812",Class:"A",CurrentStock:1,MinStock:2,MaxStock:5,Status:"BELOW MIN",UnitCost:320,Supplier:"Caterpillar Ghana",LeadTimeDays:2},
+{Name:"Wireline Cable (per 100m)",PartNumber:"WL-0050",Class:"B",CurrentStock:2,MinStock:2,MaxStock:4,Status:"OK",UnitCost:1200,Supplier:"Drilling Supplies GH",LeadTimeDays:7},
+{Name:"Core Barrel Inner Tube Assembly",PartNumber:"CB-3301",Class:"B",CurrentStock:3,MinStock:2,MaxStock:6,Status:"OK",UnitCost:890,Supplier:"Boart Longyear GH",LeadTimeDays:5},
+{Name:"Engine Oil Filter OEM (RC)",PartNumber:"ENG-0341",Class:"A",CurrentStock:8,MinStock:6,MaxStock:18,Status:"OK",UnitCost:45,Supplier:"Engine Parts GH",LeadTimeDays:1},
+{Name:"RC Cyclone Inlet Seal Kit",PartNumber:"RC-5501",Class:"A",CurrentStock:4,MinStock:3,MaxStock:8,Status:"OK",UnitCost:95,Supplier:"RC Drilling Supplies",LeadTimeDays:2},
+{Name:"Compressor Air Filter Primary",PartNumber:"COMP-AF01",Class:"A",CurrentStock:3,MinStock:3,MaxStock:8,Status:"OK",UnitCost:120,Supplier:"Kaeser GH",LeadTimeDays:2},
+{Name:"Water Pump Impeller (DD)",PartNumber:"WP-1102",Class:"B",CurrentStock:1,MinStock:1,MaxStock:2,Status:"OK",UnitCost:540,Supplier:"Drilling Supplies GH",LeadTimeDays:4},
+],
+kpis:[
+{Metric:"RC Fleet Availability",Value:"88.6%",Target:"≥ 85%",Trend:"↑ +2.1%",Status:"green",Period:"Jun 2026"},
+{Metric:"DD Fleet Availability",Value:"87.8%",Target:"≥ 85%",Trend:"↑ +1.8%",Status:"green",Period:"Jun 2026"},
+{Metric:"Compressor Availability",Value:"79.2%",Target:"≥ 90%",Trend:"↓ −5.2%",Status:"red",Period:"Jun 2026"},
+{Metric:"Avg MTBF — All Assets",Value:"298 hrs",Target:"≥ 280 hrs",Trend:"↑ +14 hrs",Status:"green",Period:"Jun 2026"},
+{Metric:"Avg MTTR",Value:"4.8 hrs",Target:"≤ 5 hrs",Trend:"↓ −0.4 hrs",Status:"green",Period:"Jun 2026"},
+{Metric:"PM Compliance",Value:"76%",Target:"≥ 90%",Trend:"↓ −8%",Status:"red",Period:"Jun 2026"},
+{Metric:"Reactive WOs",Value:"33%",Target:"≤ 25%",Trend:"↑ +5%",Status:"red",Period:"Jun 2026"},
+{Metric:"Avg Core Recovery (DD)",Value:"92%",Target:"≥ 95%",Trend:"↓ −1.5%",Status:"amber",Period:"Jun 2026"},
+],
+techs:[
+{Name:"Shaddy",Role:"Maintenance Officer",WOsCompleted:14,WOsOpen:5,HoursLogged:52,Specialisation:"RC Rigs / Hydraulics / RCA / SMARTIS",Status:"ON SHIFT"},
+{Name:"Augustine",Role:"Senior Technician",WOsCompleted:11,WOsOpen:4,HoursLogged:48,Specialisation:"Compressors / RC Track Systems",Status:"ON SHIFT"},
+{Name:"Stephen",Role:"Technician",WOsCompleted:9,WOsOpen:3,HoursLogged:44,Specialisation:"DD Rigs / Bean Pump / Wireline",Status:"ON SHIFT"},
+{Name:"Kwame",Role:"Technician",WOsCompleted:6,WOsOpen:2,HoursLogged:40,Specialisation:"DD Rigs / Core Barrel",Status:"OFF SHIFT"},
+{Name:"Emmanuel",Role:"Apprentice Technician",WOsCompleted:4,WOsOpen:2,HoursLogged:42,Specialisation:"General Maintenance",Status:"ON SHIFT"},
+],
+
+lv:[
+{ID:"DGL-LV01",Name:"TOYOTA HILUX 01",Type:"Bakkie",Make:"Toyota",Model:"Hilux D4D",Odometer:142800,Availability:96,Status:"AVAILABLE",Engine:2,Tyres:2,Brakes:2,Electrical:1,BodyChassis:2,Driver:"Shaddy",Site:"Site A",LastService:"10 May 2026",NextServiceKm:145000,KmToNextService:2200,RoadworthyExpiry:"15 Dec 2026",InsuranceExpiry:"31 Dec 2026",FireExtExpiry:"01 Aug 2026",FirstAidExpiry:"01 Aug 2026",PreStartCompliance:98,FuelL100km:11.2,CostPerKm:1.8,TyreTreadMm:5.2,OpenWOs:1},
+{ID:"DGL-LV02",Name:"TOYOTA HILUX 02",Type:"Bakkie",Make:"Toyota",Model:"Hilux D4D",Odometer:198400,Availability:88,Status:"AVAILABLE",Engine:3,Tyres:3,Brakes:2,Electrical:2,BodyChassis:3,Driver:"Augustine",Site:"Site B",LastService:"28 Apr 2026",NextServiceKm:200000,KmToNextService:1600,RoadworthyExpiry:"20 Nov 2026",InsuranceExpiry:"31 Dec 2026",FireExtExpiry:"15 Jun 2026",FirstAidExpiry:"15 Jun 2026",PreStartCompliance:92,FuelL100km:13.8,CostPerKm:2.4,TyreTreadMm:3.1,OpenWOs:2},
+{ID:"DGL-LV03",Name:"TOYOTA LAND CRUISER 01",Type:"Crew Bus",Make:"Toyota",Model:"Land Cruiser 79",Odometer:88200,Availability:100,Status:"AVAILABLE",Engine:1,Tyres:1,Brakes:1,Electrical:1,BodyChassis:1,Driver:"Stephen",Site:"Site A",LastService:"18 May 2026",NextServiceKm:93000,KmToNextService:4800,RoadworthyExpiry:"10 Jan 2027",InsuranceExpiry:"31 Dec 2026",FireExtExpiry:"10 Sep 2026",FirstAidExpiry:"10 Sep 2026",PreStartCompliance:100,FuelL100km:14.2,CostPerKm:2.1,TyreTreadMm:6.8,OpenWOs:0},
+{ID:"DGL-LV04",Name:"ISUZU WATER TRUCK 01",Type:"Water Truck",Make:"Isuzu",Model:"FTR 800",Odometer:312000,Availability:75,Status:"IN WORKSHOP",Engine:4,Tyres:3,Brakes:4,Electrical:3,BodyChassis:3,Driver:"Kwame",Site:"Workshop",LastService:"15 Mar 2026",NextServiceKm:315000,KmToNextService:-3000,RoadworthyExpiry:"05 Jun 2026",InsuranceExpiry:"31 Dec 2026",FireExtExpiry:"01 Jul 2026",FirstAidExpiry:"01 Jul 2026",PreStartCompliance:78,FuelL100km:28.4,CostPerKm:4.2,TyreTreadMm:2.4,OpenWOs:4},
+{ID:"DGL-LV05",Name:"TOYOTA FUEL BOWSER 01",Type:"Fuel Bowser",Make:"Toyota",Model:"Dyna 4.5T",Odometer:224500,Availability:90,Status:"AVAILABLE",Engine:2,Tyres:2,Brakes:2,Electrical:2,BodyChassis:2,Driver:"Emmanuel",Site:"Site C",LastService:"02 May 2026",NextServiceKm:227500,KmToNextService:3000,RoadworthyExpiry:"22 Sep 2026",InsuranceExpiry:"31 Dec 2026",FireExtExpiry:"22 Jul 2026",FirstAidExpiry:"22 Jul 2026",PreStartCompliance:95,FuelL100km:18.6,CostPerKm:3.1,TyreTreadMm:4.6,OpenWOs:1},
+{ID:"DGL-LV06",Name:"TOYOTA HILUX 03",Type:"Bakkie",Make:"Toyota",Model:"Hilux D4D",Odometer:67400,Availability:100,Status:"AVAILABLE",Engine:1,Tyres:1,Brakes:1,Electrical:1,BodyChassis:1,Driver:"Shaddy",Site:"Site D",LastService:"22 May 2026",NextServiceKm:72500,KmToNextService:5100,RoadworthyExpiry:"08 Feb 2027",InsuranceExpiry:"31 Dec 2026",FireExtExpiry:"08 Nov 2026",FirstAidExpiry:"08 Nov 2026",PreStartCompliance:100,FuelL100km:10.8,CostPerKm:1.6,TyreTreadMm:7.2,OpenWOs:0},
+],
+costs:[
+{Category:"Planned Maintenance Labour",Budget:52000,Actual:46400},
+{Category:"Corrective / Breakdown Labour",Budget:20000,Actual:31200},
+{Category:"Parts — RC Rigs",Budget:38000,Actual:34800},
+{Category:"Parts — DD Rigs",Budget:28000,Actual:26200},
+{Category:"Parts — Compressors",Budget:18000,Actual:22400},
+{Category:"Lubricants & Consumables",Budget:14000,Actual:13200},
+{Category:"Emergency Procurement",Budget:6000,Actual:11400},
+],
+};
+const TD=[{p:"Jan",a:88,m:285,r:30},{p:"Feb",a:85,m:268,r:36},{p:"Mar",a:90,m:300,r:28},{p:"Apr",a:83,m:278,r:34},{p:"May",a:86,m:290,r:31},{p:"Jun",a:88,m:298,r:33}];
+const sC=s=>s==="DRILLING"||s==="RUNNING"||s==="AVAILABLE"?"#00e087":s==="BREAKDOWN"||s==="DOWN"?"#ff3355":s==="PM DUE"||s==="IN WORKSHOP"?"#f5a800":s==="ON ROAD"?"#00e087":"#5a6e8a";
+const hC=v=>v<=2?"#00e087":v<=3?"#f5a800":"#ff3355";
+const hL=v=>v===1?"EXCELLENT":v===2?"GOOD":v===3?"MONITOR":v===4?"DEGRADED":"CRITICAL";
+const wTC=t=>t==="REACTIVE"?"#ff3355":t==="PM"?"#00e087":t==="PdM"?"#a855f7":"#00c8f0";
+const pC=p=>p==="HIGH"?"#ff3355":p==="MEDIUM"?"#f5a800":"#5a6e8a";
+const wSC=s=>s==="COMPLETED"?"#00e087":s==="IN PROGRESS"?"#00c8f0":"#f5a800";
+const kC=s=>s==="green"?"#00e087":s==="red"?"#ff3355":"#f5a800";
+const aTC=t=>t==="RC"?"#00c8f0":t==="DD"?"#a855f7":"#f5a800";
+function pl(l,c){return `<span class="pill" style="background:${c}20;color:${c};border:1px solid ${c}40;">${l}</span>`;}
+function $(i){return document.getElementById(i);}
+function all(){return [...D.rc,...D.dd,...D.comp];} function allLV(){return D.lv||[];}
+function typeOf(a){return D.rc.includes(a)?"RC":D.dd.includes(a)?"DD":D.comp.includes(a)?"COMPRESSOR":"LV";}
+function updateClock(){const n=new Date();const c=$("clock"),d=$("date-disp"),e=$("exec-date"),s=$("shift-date");if(c)c.textContent=n.toLocaleTimeString("en-GB");if(d)d.textContent=n.toLocaleDateString("en-GB",{weekday:"short",day:"2-digit",month:"short",year:"numeric"});if(e)e.textContent=n.toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});if(s)s.textContent="Date: "+n.toLocaleDateString("en-GB")+" | "+n.toLocaleTimeString("en-GB");}
+updateClock();setInterval(updateClock,1000);
+function drawSpark(si,li,f,col){const svg=$(si),lbl=$(li);if(!svg)return;const vals=TD.map(d=>d[f]);const mn=Math.min(...vals)-5,mx=Math.max(...vals)+5,W=260,H=48;const pts=vals.map((v,i)=>{const x=(i/(vals.length-1))*W,y=H-((v-mn)/(mx-mn))*H;return x+","+y;}).join(" ");const li2=vals.length-1,lx=(li2/(vals.length-1))*W,ly=H-((vals[li2]-mn)/(mx-mn))*H;svg.innerHTML=`<defs><linearGradient id="g${si}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${col}" stop-opacity=".3"/><stop offset="100%" stop-color="${col}" stop-opacity=".02"/></linearGradient></defs><polygon points="0,${H} ${pts} ${W},${H}" fill="url(#g${si})"/><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${lx}" cy="${ly}" r="4" fill="${col}" stroke="var(--bg)" stroke-width="2"/>`;const sf=f==="m"?" hrs":"%";if(lbl)lbl.innerHTML=TD.map((d,i)=>`<span style="font-size:8px;font-family:'JetBrains Mono',monospace;color:${i===TD.length-1?col:"var(--dim)"};">${d.p}<br>${d[f]}${sf}</span>`).join("");}
+function csvToObj(csv){const lines=csv.trim().split("\n");if(lines.length<2)return[];const hdrs=lines[0].split(",").map(h=>h.trim().replace(/"/g,""));return lines.slice(1).map(line=>{const vals=[];let cur="",inQ=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){inQ=!inQ;}else if(c===","&&!inQ){vals.push(cur);cur="";}else cur+=c;}vals.push(cur);const obj={};hdrs.forEach((h,i)=>{let v=(vals[i]||"").trim().replace(/^"|"$/g,"");const n=Number(v);obj[h]=(!isNaN(n)&&v!=="")?n:v;});return obj;});}
+async function fetchTab(tab){const url=`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${tab}`;const r=await fetch(url);if(!r.ok)throw new Error("Cannot fetch "+tab);return csvToObj(await r.text());}
+async function loadSheets(){showLoading();try{const[rc,dd,comp,lv,wo,sp,kp,te]=await Promise.all([fetchTab("RC_Rigs"),fetchTab("DD_Rigs"),fetchTab("Compressors"),fetchTab("LightVehicles"),fetchTab("WorkOrders"),fetchTab("Spares"),fetchTab("KPITargets"),fetchTab("Technicians")]);D={rc,dd,comp,lv,wo,spares:sp,kpis:kp,techs:te,costs:[]};const lr=$("last-refresh");if(lr)lr.textContent="Last refreshed: "+new Date().toLocaleTimeString();localStorage.setItem("smartis-sid",sheetId);renderAll();}catch(e){showError("Could not load data from Google Sheets.<br><br>"+e.message);}}
+function loadDemo(){D=JSON.parse(JSON.stringify(DEMO));sheetId="DEMO";const dl=$("data-label"),ld=$("live-dot");if(dl){dl.textContent="DEMO DATA";dl.style.color="var(--amber)";}if(ld)ld.style.background="var(--amber)";const lr=$("last-refresh");if(lr)lr.textContent="Demo data loaded — "+new Date().toLocaleTimeString();hideSetup();renderAll();calcROI();}
+async function refreshData(){if(sheetId==="DEMO"){loadDemo();return;}await loadSheets();}
+function connectSheet(){const v=$("sheet-id-input").value.trim();if(!v){alert("Paste your Spreadsheet ID first.");return;}sheetId=v;hideSetup();loadSheets();if(rTimer)clearInterval(rTimer);rTimer=setInterval(refreshData,300000);}
+function showSetup(){$("setup-modal").classList.remove("hidden");$("main-app").classList.add("hidden");}
+function hideSetup(){$("setup-modal").classList.add("hidden");$("main-app").classList.remove("hidden");}
+function showLoading(){hideSetup();const e=$("tab-exec");if(e)e.innerHTML='<div class="loading"><div class="spinner"></div><div style="font-size:12px;color:var(--muted);font-family:\'JetBrains Mono\',monospace;">LOADING FROM GOOGLE SHEETS...</div></div>';}
+function showError(m){const e=$("tab-exec");if(e)e.innerHTML=`<div style="padding:40px;"><div style="background:rgba(255,51,85,.08);border:1px solid rgba(255,51,85,.25);border-radius:10px;padding:24px;"><div style="font-size:15px;font-weight:700;color:var(--red);margin-bottom:10px;">⚠ Connection Error</div><div style="font-size:12px;color:var(--muted);line-height:1.7;">${m}</div><button class="btn-p" style="margin-top:14px;" onclick="showSetup()">RECONFIGURE</button></div></div>`;}
+function renderAll(){buildPills();buildExec();buildOverview();buildRC();buildDD();buildComp();buildLV();buildWOs();buildCal();buildKPIs();buildAnalytics();buildTechs();buildSpares();buildCostTracker();buildShift();calcROI();updateNotifCount();buildCascadeVisual();}
+function buildPills(){const bd=all().filter(a=>a.Status==="BREAKDOWN"||a.Status==="DOWN").length;const po=all().filter(a=>Number(a.HrsToNextPM)<0).length;const so=D.spares.filter(s=>s.Status==="STOCK-OUT").length;const lvExp=(D.lv||[]).filter(v=>daysUntil(v.RoadworthyExpiry)<0||daysUntil(v.InsuranceExpiry)<0||daysUntil(v.FireExtExpiry)<0||daysUntil(v.FirstAidExpiry)<0).length;let h="";if(bd>0)h+=`<div class="apill" style="background:rgba(255,51,85,.12);border:1px solid rgba(255,51,85,.3);color:var(--red);"><div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.8s infinite;"></div>${bd} DOWN</div>`;if(po>0)h+=`<div class="apill" style="background:rgba(245,168,0,.12);border:1px solid rgba(245,168,0,.3);color:var(--amber);"><div style="width:6px;height:6px;border-radius:50%;background:var(--amber);animation:pulse 1.8s infinite;"></div>${po} PM OVERDUE</div>`;if(so>0)h+=`<div class="apill" style="background:rgba(255,51,85,.12);border:1px solid rgba(255,51,85,.3);color:var(--red);"><div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.8s infinite;"></div>${so} STOCK-OUT${so>1?"S":""}</div>`;if(lvExp>0)h+=`<div class="apill" style="background:rgba(255,51,85,.12);border:1px solid rgba(255,51,85,.3);color:var(--red);"><div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.8s infinite;"></div>${lvExp} LV COMPLIANCE EXPIRED</div>`;$("alert-pills").innerHTML=h;}
+function sumCard(v,l,c){return `<div class="card-sm" style="text-align:center;"><div style="font-size:32px;font-weight:900;color:${c};line-height:1.1;">${v}</div><div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-top:5px;">${l}</div></div>`;}
+function assetSummary(arr){const dr=arr.filter(a=>a.Status==="DRILLING"||a.Status==="RUNNING").length;const dn=arr.filter(a=>a.Status==="BREAKDOWN"||a.Status==="DOWN").length;const pm=arr.filter(a=>Number(a.HrsToNextPM)<0).length;const av=arr.length?Math.round(arr.reduce((s,a)=>s+Number(a.Availability),0)/arr.length):0;return sumCard(dr,"Operating","#00e087")+sumCard(dn,"Down","#ff3355")+sumCard(pm,"PM Overdue","#f5a800")+sumCard(av+"%","Avg Availability",av>=85?"#00e087":av>=75?"#f5a800":"#ff3355");}
+function buildExec(){const a=all();const dr=D.rc.filter(r=>r.Status==="DRILLING").length+D.dd.filter(d=>d.Status==="DRILLING").length;const dn=a.filter(x=>x.Status==="BREAKDOWN"||x.Status==="DOWN").length;const av=a.length?Math.round(a.reduce((s,x)=>s+Number(x.Availability),0)/a.length):0;const ow=D.wo.filter(w=>w.Status!=="COMPLETED").length;const dc=D.wo.reduce((s,w)=>s+Number(w.DowntimeCost||0),0);$("exec-big").innerHTML=[{l:"Overall Fleet Availability",v:av+"%",c:av>=85?"#00e087":av>=75?"#f5a800":"#ff3355",s:`${D.rc.length} RC | ${D.dd.length} DD | ${D.comp.length} Compressors`},{l:"Assets Drilling / Running",v:dr,c:"#00e087",s:`${dn} asset(s) offline | ${a.length} total`},{l:"Open Work Orders",v:ow,c:ow>10?"#ff3355":ow>5?"#f5a800":"#00e087",s:`${D.wo.filter(w=>w.Priority==="HIGH"&&w.Status!=="COMPLETED").length} HIGH priority`},{l:"Downtime Cost (MTD)",v:"$"+dc.toLocaleString(),c:dc>150000?"#ff3355":dc>80000?"#f5a800":"#00e087",s:"All asset types combined"}].map(k=>`<div class="card-sm" style="text-align:center;"><div style="font-size:28px;font-weight:900;color:${k.c};line-height:1.1;margin-bottom:5px;">${k.v}</div><div style="font-size:10px;font-weight:700;margin-bottom:3px;">${k.l}</div><div style="font-size:9px;color:var(--muted);">${k.s}</div></div>`).join("");
+let strip=`<div style="font-size:9px;color:var(--rc);font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:2px;margin-bottom:8px;">RC DRILLING RIGS</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
+strip+=D.rc.map(r=>`<div onclick="goA('rc','${r.ID}')" style="background:var(--surface2);border:1px solid ${sC(r.Status)}44;border-radius:8px;padding:8px 12px;cursor:pointer;min-width:120px;"><div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;"><div style="width:6px;height:6px;border-radius:50%;background:${sC(r.Status)};"></div><span style="font-size:9px;font-weight:700;color:var(--rc);font-family:'JetBrains Mono',monospace;">${r.ID}</span></div><div style="font-size:10px;font-weight:600;">${r.Name}</div><div style="font-size:16px;font-weight:900;color:${Number(r.Availability)>=90?"#00e087":Number(r.Availability)>=80?"#f5a800":"#ff3355"};">${r.Availability}%</div></div>`).join("");
+strip+=`</div><div style="font-size:9px;color:var(--dd);font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:2px;margin-bottom:8px;">DIAMOND DRILL RIGS</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">`;
+strip+=D.dd.map(d=>`<div onclick="goA('dd','${d.ID}')" style="background:var(--surface2);border:1px solid ${sC(d.Status)}44;border-radius:8px;padding:8px 12px;cursor:pointer;min-width:120px;"><div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;"><div style="width:6px;height:6px;border-radius:50%;background:${sC(d.Status)};"></div><span style="font-size:9px;font-weight:700;color:var(--dd);font-family:'JetBrains Mono',monospace;">${d.ID}</span></div><div style="font-size:10px;font-weight:600;">${d.Name}</div><div style="font-size:16px;font-weight:900;color:${Number(d.Availability)>=90?"#00e087":Number(d.Availability)>=80?"#f5a800":"#ff3355"};">${d.Availability}%</div>${d.CoreRecovery?`<div style="font-size:9px;color:var(--muted);">CR: ${d.CoreRecovery}%</div>`:""}</div>`).join("");
+strip+=`</div><div style="font-size:9px;color:var(--comp);font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:2px;margin-bottom:8px;">EXTERNAL COMPRESSORS</div><div style="display:flex;gap:8px;flex-wrap:wrap;">`;
+strip+=D.comp.map(c=>`<div onclick="goA('comp','${c.ID}')" style="background:var(--surface2);border:1px solid ${sC(c.Status)}44;border-radius:8px;padding:8px 12px;cursor:pointer;min-width:140px;"><div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;"><div style="width:6px;height:6px;border-radius:50%;background:${sC(c.Status)};"></div><span style="font-size:9px;font-weight:700;color:var(--comp);font-family:'JetBrains Mono',monospace;">${c.ID}</span></div><div style="font-size:10px;font-weight:600;">${c.Name}</div><div style="font-size:9px;color:var(--muted);">→ ${c.AssignedTo}</div><div style="font-size:16px;font-weight:900;color:${Number(c.Availability)>=90?"#00e087":Number(c.Availability)>=80?"#f5a800":"#ff3355"};">${c.Availability}%</div></div>`).join("");
+strip+=`</div>`;
+strip+=`<div style="font-size:9px;color:var(--lv);font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:2px;margin:14px 0 8px;">LIGHT VEHICLES</div><div style="display:flex;gap:8px;flex-wrap:wrap;">`;
+strip+=(D.lv||[]).map(v=>`<div onclick="goA('lv','${v.ID}')" style="background:var(--surface2);border:1px solid ${lvStatusCol(v.Status)}44;border-radius:8px;padding:8px 12px;cursor:pointer;min-width:110px;"><div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;"><div style="width:6px;height:6px;border-radius:50%;background:${lvStatusCol(v.Status)};"></div><span style="font-size:9px;font-weight:700;color:var(--lv);font-family:'JetBrains Mono',monospace;">${v.ID}</span></div><div style="font-size:10px;font-weight:600;">${v.Name}</div><div style="font-size:9px;color:var(--muted);">${v.Type}</div><div style="font-size:14px;font-weight:900;color:${Number(v.Availability)>=90?"#00e087":Number(v.Availability)>=80?"#f5a800":"#ff3355"};">${v.Availability}%</div></div>`).join("");
+strip+=`</div>`;
+$("exec-strip").innerHTML=strip;
+const crit=[];a.filter(x=>x.Status==="BREAKDOWN"||x.Status==="DOWN").forEach(x=>crit.push({m:`${x.ID} ${x.Name} — OFFLINE. ${x.OpenWOs} open WO(s). Immediate action.`,c:"#ff3355"}));a.filter(x=>Number(x.HrsToNextPM)<0).forEach(x=>crit.push({m:`${x.Name} — PM overdue by ${Math.abs(x.HrsToNextPM)} hrs.`,c:"#f5a800"}));D.spares.filter(s=>s.Status==="STOCK-OUT").forEach(s=>crit.push({m:`STOCK-OUT: ${s.Name} (${s.PartNumber}). Class ${s.Class}. Lead: ${s.LeadTimeDays} day(s).`,c:"#ff3355"}));D.comp.filter(c=>c.Status==="DOWN").forEach(c=>{const rc=D.rc.find(r=>r.ConnectedCompressor===c.ID);if(rc)crit.push({m:`CASCADE: ${c.Name} DOWN → ${rc.Name} has no air supply. Both assets affected.`,c:"#ff3355"});});
+$("exec-critical").innerHTML=crit.length?crit.map(i=>`<div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><div style="width:3px;background:${i.c};border-radius:2px;flex-shrink:0;min-height:32px;"></div><div style="font-size:11px;line-height:1.5;">${i.m}</div></div>`).join(""):'<div style="font-size:11px;color:var(--green);padding:14px 0;text-align:center;">✓ No critical issues</div>';
+const wins=[];const done=D.wo.filter(w=>w.Status==="COMPLETED").length;if(done>0)wins.push(`${done} work orders completed this period`);[...D.rc,...D.dd].filter(x=>Number(x.Availability)>=95).forEach(x=>wins.push(`${x.Name} — ${x.Availability}% availability. Excellent.`));D.dd.filter(d=>Number(d.CoreRecovery)>=96).forEach(d=>wins.push(`${d.Name} — Core recovery ${d.CoreRecovery}%. Outstanding drilling performance.`));D.comp.filter(c=>Number(c.HrsToNextPM)>200).forEach(c=>wins.push(`${c.Name} — ${c.HrsToNextPM} hrs to next PM. Well ahead.`));
+$("exec-wins").innerHTML=wins.length?wins.map(w=>`<div style="display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);"><div style="color:var(--green);flex-shrink:0;">✓</div><div style="font-size:11px;">${w}</div></div>`).join(""):'<div style="font-size:11px;color:var(--muted);padding:14px 0;">No data yet</div>';
+$("exec-recs").innerHTML=["Prioritise PM compliance — 76% vs 90% target. Schedule all overdue services immediately.","Compressor availability (79.2%) below target — increase PM frequency, focus on oil separator service.","Resolve all Class A spare stock-outs within 24 hours — bean pump seals and compressor separators are critical.","Plan major overhaul for DGL-DD04 RAPTOR — 8,900 hrs, all systems degraded, core recovery at 0%.","Implement dedicated compressor PM register — track compressor hours separately from RC rig hours.","Track core recovery % as a primary KPI for DD rigs — low core recovery = lost geological data and revenue."].map((r,i)=>`<div style="display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);"><span style="font-size:9px;font-weight:700;color:var(--accent);font-family:'JetBrains Mono',monospace;flex-shrink:0;margin-top:1px;">${i+1}.</span><div style="font-size:11px;">${r}</div></div>`).join("");}
+function buildOverview(){$("ov-kpis").innerHTML=D.kpis.slice(0,4).map(k=>`<div class="card-sm"><div class="kl">${k.Metric}</div><div class="kv" style="color:${kC(k.Status)};">${k.Value}</div><div class="kf"><span class="kt">TGT ${k.Target}</span><span class="ktr" style="color:${kC(k.Status)};">${k.Trend}</span></div></div>`).join("");$("ov-fleet").innerHTML=all().map(a=>{const t=typeOf(a);return `<div onclick="goA('${t.toLowerCase().substring(0,4)}','${a.ID}')" style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;"><div style="display:flex;align-items:center;gap:8px;"><div style="width:7px;height:7px;border-radius:50%;background:${sC(a.Status)};box-shadow:0 0 6px ${sC(a.Status)};"></div><div><div style="font-size:11px;font-weight:600;">${a.Name}</div><div style="font-size:9px;color:var(--muted);">${a.Site}</div></div></div><div style="display:flex;gap:5px;">${pl(t==="COMPRESSOR"?"COMP":t,aTC(t))} ${pl(a.Status,sC(a.Status))}</div></div>`;}).join("");const sm={};D.wo.filter(w=>w.Status!=="COMPLETED").forEach(w=>{sm[w.System]=(sm[w.System]||0)+Number(w.Hours||0);});const tot=Object.values(sm).reduce((s,v)=>s+v,0)||1;const sr=Object.entries(sm).sort((a,b)=>b[1]-a[1]).slice(0,6);const pc=["#ff3355","#f5a800","#a855f7","#00c8f0","#00e087","#5a6e8a"];$("ov-pareto").innerHTML=sr.length?sr.map(([s,h],i)=>`<div style="margin-bottom:9px;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:11px;">${s}</span><span style="font-size:9px;color:${pc[i]};font-family:'JetBrains Mono',monospace;font-weight:700;">${h}h (${Math.round(h/tot*100)}%)</span></div><div class="bt"><div class="bf" style="width:${Math.round(h/tot*100)}%;background:${pc[i]};"></div></div></div>`).join(""):'<div style="font-size:11px;color:var(--muted);padding:16px;text-align:center;">No open WOs</div>';const alerts=[];all().filter(a=>a.Status==="BREAKDOWN"||a.Status==="DOWN").forEach(a=>alerts.push({s:"CRITICAL",m:`${a.Name} — OFFLINE. ${a.OpenWOs} WO(s) open.`,c:"#ff3355"}));all().filter(a=>Number(a.HrsToNextPM)<0).forEach(a=>alerts.push({s:"HIGH",m:`${a.Name} — PM overdue ${Math.abs(a.HrsToNextPM)} hrs`,c:"#f5a800"}));D.spares.filter(s=>s.Status==="STOCK-OUT").forEach(s=>alerts.push({s:"STOCK-OUT",m:`${s.Name} (${s.PartNumber}) Class ${s.Class}`,c:"#ff3355"}));D.comp.filter(c=>c.Status==="DOWN").forEach(c=>{const rc=D.rc.find(r=>r.ConnectedCompressor===c.ID);if(rc)alerts.push({s:"CASCADE",m:`${c.Name} DOWN → ${rc.Name} has no air supply`,c:"#ff3355"});});$("ov-alerts").innerHTML=alerts.length?alerts.slice(0,8).map(a=>`<div class="ar"><div class="astr" style="background:${a.c};"></div><div><div style="font-size:9px;font-weight:700;letter-spacing:1.5px;font-family:'JetBrains Mono',monospace;color:${a.c};margin-bottom:2px;">${a.s}</div><div style="font-size:11px;line-height:1.4;">${a.m}</div></div></div>`).join(""):'<div style="font-size:11px;color:var(--green);padding:16px;text-align:center;">✓ No active alerts</div>';drawSpark("sp-avail","sp-avail-l","a","#00e087");drawSpark("sp-mtbf","sp-mtbf-l","m","#00c8f0");drawSpark("sp-react","sp-react-l","r","#ff3355");}
+function goA(t,id){const tMap={rc:2,dd:3,comp:4,lv:5};showTab(t,document.querySelectorAll(".tab")[tMap[t]]);setTimeout(()=>{if(t==="rc")selRC=id;else if(t==="dd")selDD=id;else if(t==="comp")selComp=id;else selLV=id;if(t==="rc")renderRCDet();else if(t==="dd")renderDDDet();else if(t==="comp")renderCompDet();else renderLVDet();},80);}
+function buildRC(){$("rc-summary").innerHTML=assetSummary(D.rc);$("rc-cards").innerHTML=D.rc.map(r=>`<div class="ac${selRC===r.ID?" sel":""}" id="rcc-${r.ID}" onclick="selRCf('${r.ID}')" style="border:1px solid ${selRC===r.ID?"var(--rc)":sC(r.Status)}44;"><div style="display:flex;justify-content:space-between;margin-bottom:7px;"><span class="mono" style="font-size:9px;font-weight:700;color:var(--rc);">${r.ID}</span>${pl(r.Status,sC(r.Status))}</div><div style="font-size:12px;font-weight:700;margin-bottom:2px;">${r.Name}</div><div style="font-size:9px;color:var(--muted);margin-bottom:10px;">${r.Site}</div><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><div><div style="font-size:20px;font-weight:900;color:${Number(r.Availability)>=90?"#00e087":Number(r.Availability)>=80?"#f5a800":"#ff3355"};">${r.Availability}%</div><div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">AVAIL</div></div><div style="text-align:right;"><div style="font-size:20px;font-weight:900;">${Number(r.Hours).toLocaleString()}</div><div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">HRS</div></div></div><div class="mono" style="font-size:8px;font-weight:700;color:${r.HrsToNextPM<0?"#ff3355":r.HrsToNextPM<100?"#f5a800":"#00e087"};">${r.HrsToNextPM<0?"⚠ PM OVERDUE "+Math.abs(r.HrsToNextPM)+"h":"NEXT PM: "+r.HrsToNextPM+"h"}</div><div class="mono" style="font-size:8px;color:var(--comp);margin-top:4px;">📡 COMP: ${r.ConnectedCompressor||"—"}</div>${r.MetresDrilled?`<div class="mono" style="font-size:8px;color:var(--muted);margin-top:2px;">${r.MetresDrilled}m / ${r.ShiftTarget}m</div>`:""}</div>`).join("");$("rc-comp-table").innerHTML=D.rc.map(r=>{const c=D.comp.find(x=>x.ID===r.ConnectedCompressor);return `<tr><td style="font-weight:700;">${r.Name}</td><td class="mono" style="color:var(--comp);">${r.ConnectedCompressor||"—"}</td><td style="color:var(--muted);">${c?c.Make+" "+c.Model:"Not linked"}</td><td>${c?pl(c.Status,sC(c.Status)):"—"}</td><td class="mono">${c?c.CFM+" CFM":"—"}</td><td class="mono">${c?c.WorkingPressure+" psi":"—"}</td><td style="font-size:10px;color:${c&&(c.Status==="DOWN")?"#ff3355":"var(--muted)"};">${c&&c.Status==="DOWN"?"⚠ NO AIR — CANNOT DRILL":"Normal supply"}</td></tr>`;}).join("");}
+function selRCf(id){selRC=selRC===id?null:id;document.querySelectorAll("[id^='rcc-']").forEach(c=>c.classList.remove("sel"));if(selRC)document.getElementById("rcc-"+selRC)?.classList.add("sel");renderRCDet();}
+function renderRCDet(){const el=$("rc-detail");if(!selRC){el.innerHTML="";return;}const r=D.rc.find(x=>x.ID===selRC);if(!r){el.innerHTML="";return;}const comp=D.comp.find(c=>c.ID===r.ConnectedCompressor);const sys=[["Engine",r.Engine],["Hydraulics",r.Hydraulics],["Track",r.Track],["Rotation Head",r.RotationHead],["RC Sample System",r.RCSampleSystem],["Electrical",r.Electrical]];const rWOs=D.wo.filter(w=>w.AssetID===r.ID);el.innerHTML=`<div class="dp fade-in" style="border:1px solid rgba(0,200,240,.25);"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><div><div style="font-size:16px;font-weight:800;">${r.Name}</div><div style="font-size:11px;color:var(--muted);">${r.Site} | ${r.ID} | ${Number(r.Hours).toLocaleString()} hrs | $${r.CostPerHour}/hr</div></div>${pl(r.Status,sC(r.Status))}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;"><div><div class="st"><div class="sb" style="background:var(--rc);"></div><span class="sl">RC Rig Systems</span></div>${sys.map(([n,v])=>`<div class="hr2"><div class="hs">${n}</div><div class="bt"><div class="bf" style="width:${(v/6)*100}%;background:${hC(v)};"></div></div>${pl(hL(v),hC(v))}</div>`).join("")}</div><div><div class="st"><div class="sb" style="background:var(--comp);"></div><span class="sl">Connected Compressor</span></div>${comp?`<div style="background:var(--surface2);border:1px solid ${sC(comp.Status)}44;border-radius:8px;padding:12px;"><div style="font-size:12px;font-weight:700;margin-bottom:3px;">${comp.Name}</div><div style="font-size:9px;color:var(--muted);margin-bottom:8px;">${comp.Make} ${comp.Model} | ${comp.ID}</div>${[["Status",pl(comp.Status,sC(comp.Status))],["CFM",comp.CFM+" CFM"],["Pressure",comp.WorkingPressure+" psi"],["Hours",Number(comp.Hours).toLocaleString()+"h"],["Next PM",comp.HrsToNextPM<0?`<span style="color:#ff3355;">OVERDUE ${Math.abs(comp.HrsToNextPM)}h</span>`:comp.HrsToNextPM+"h"]].map(([l,v])=>`<div class="ir"><span style="font-size:10px;color:var(--muted);">${l}</span><span style="font-size:11px;font-weight:600;">${v}</span></div>`).join("")}${comp.Status==="DOWN"?'<div style="background:rgba(255,51,85,.1);border:1px solid rgba(255,51,85,.3);border-radius:6px;padding:8px;margin-top:8px;font-size:10px;color:#ff3355;font-weight:700;">⚠ COMPRESSOR DOWN — RC RIG HAS NO AIR SUPPLY. DRILLING NOT POSSIBLE.</div>':""}</div>`:'<div style="font-size:11px;color:var(--muted);padding:12px;">No compressor linked to this rig</div>'}</div><div><div class="st"><div class="sb" style="background:var(--amber);"></div><span class="sl">Active Work Orders</span></div>${rWOs.length?rWOs.map(w=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span class="mono" style="font-size:9px;color:var(--accent);">${w.ID}</span>${pl(w.Status,wSC(w.Status))}</div><div style="font-size:11px;">${w.Description.substring(0,45)}...</div></div>`).join(""):'<div style="font-size:11px;color:var(--muted);padding:8px 0;">No active WOs</div>'}</div></div></div>`;}
+function buildDD(){$("dd-summary").innerHTML=assetSummary(D.dd);$("dd-cards").innerHTML=D.dd.map(d=>`<div class="ac${selDD===d.ID?" sel":""}" id="ddc-${d.ID}" onclick="selDDf('${d.ID}')" style="border:1px solid ${selDD===d.ID?"var(--dd)":sC(d.Status)}44;"><div style="display:flex;justify-content:space-between;margin-bottom:7px;"><span class="mono" style="font-size:9px;font-weight:700;color:var(--dd);">${d.ID}</span>${pl(d.Status,sC(d.Status))}</div><div style="font-size:12px;font-weight:700;margin-bottom:2px;">${d.Name}</div><div style="font-size:9px;color:var(--muted);margin-bottom:10px;">${d.Site}</div><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><div><div style="font-size:20px;font-weight:900;color:${Number(d.Availability)>=90?"#00e087":Number(d.Availability)>=80?"#f5a800":"#ff3355"};">${d.Availability}%</div><div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">AVAIL</div></div><div style="text-align:right;"><div style="font-size:20px;font-weight:900;">${Number(d.Hours).toLocaleString()}</div><div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">HRS</div></div></div>${d.CoreRecovery?`<div class="mono" style="font-size:8px;font-weight:700;color:${Number(d.CoreRecovery)>=95?"#00e087":Number(d.CoreRecovery)>=85?"#f5a800":"#ff3355"};">CORE RECOVERY: ${d.CoreRecovery}%</div>`:""}  <div class="mono" style="font-size:8px;font-weight:700;color:${d.HrsToNextPM<0?"#ff3355":d.HrsToNextPM<100?"#f5a800":"#00e087"};margin-top:4px;">${d.HrsToNextPM<0?"⚠ PM OVERDUE "+Math.abs(d.HrsToNextPM)+"h":"NEXT PM: "+d.HrsToNextPM+"h"}</div>${d.MetresDrilled?`<div class="mono" style="font-size:8px;color:var(--muted);margin-top:2px;">${d.MetresDrilled}m / ${d.ShiftTarget}m</div>`:""}</div>`).join("");}
+function selDDf(id){selDD=selDD===id?null:id;document.querySelectorAll("[id^='ddc-']").forEach(c=>c.classList.remove("sel"));if(selDD)document.getElementById("ddc-"+selDD)?.classList.add("sel");renderDDDet();}
+function renderDDDet(){const el=$("dd-detail");if(!selDD){el.innerHTML="";return;}const d=D.dd.find(x=>x.ID===selDD);if(!d){el.innerHTML="";return;}const sys=[["Engine",d.Engine],["Hydraulics",d.Hydraulics],["Rotation Head",d.RotationHead],["Bean Pump",d.BeanPump],["Wireline Winch",d.WirelineWinch],["Water Pump",d.WaterPump],["Rod Handling",d.RodHandling],["Core Barrel",d.CoreBarrel],["Mast & Feed",d.MastFeed],["Electrical",d.Electrical]];const dWOs=D.wo.filter(w=>w.AssetID===d.ID);el.innerHTML=`<div class="dp fade-in" style="border:1px solid rgba(168,85,247,.25);"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><div><div style="font-size:16px;font-weight:800;">${d.Name}</div><div style="font-size:11px;color:var(--muted);">${d.Site} | ${d.ID} | ${Number(d.Hours).toLocaleString()} hrs | Bean Pump — No external compressor</div></div>${pl(d.Status,sC(d.Status))}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;"><div><div class="st"><div class="sb" style="background:var(--dd);"></div><span class="sl">DD Rig Systems</span></div>${sys.map(([n,v])=>`<div class="hr2"><div class="hs">${n}</div><div class="bt"><div class="bf" style="width:${(v/6)*100}%;background:${hC(v)};"></div></div>${pl(hL(v),hC(v))}</div>`).join("")}</div><div><div class="st"><div class="sb" style="background:var(--amber);"></div><span class="sl">Drilling Performance</span></div>${[["Asset ID",d.ID],["Meter Hours",Number(d.Hours).toLocaleString()+" hrs"],["Core Recovery",d.CoreRecovery?d.CoreRecovery+"%":"N/A"],["Metres (shift)",d.MetresDrilled?Number(d.MetresDrilled).toLocaleString()+" m":"N/A"],["Shift Target",d.ShiftTarget?Number(d.ShiftTarget).toLocaleString()+" m":"N/A"],["Cost/Hr","$"+d.CostPerHour+"/hr"],["Last PM",d.LastPM],["Next PM",d.NextPM],["Hrs to PM",d.HrsToNextPM<0?"OVERDUE "+Math.abs(d.HrsToNextPM)+" hrs":d.HrsToNextPM+" hrs"]].map(([l,v])=>`<div class="ir"><span style="font-size:10px;color:var(--muted);">${l}</span><span style="font-size:11px;font-weight:600;color:${l.includes("Hrs")&&d.HrsToNextPM<0?"#ff3355":l.includes("Core")&&Number(d.CoreRecovery)<85?"#ff3355":"var(--text)"};">${v}</span></div>`).join("")}</div><div><div class="st"><div class="sb" style="background:var(--purple);"></div><span class="sl">Active Work Orders</span></div>${dWOs.length?dWOs.map(w=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span class="mono" style="font-size:9px;color:var(--accent);">${w.ID}</span>${pl(w.Status,wSC(w.Status))}</div><div style="font-size:11px;">${w.Description.substring(0,45)}...</div></div>`).join(""):'<div style="font-size:11px;color:var(--muted);padding:8px 0;">No active WOs</div>'}</div></div></div>`;}
+function buildComp(){$("comp-summary").innerHTML=assetSummary(D.comp);$("comp-cards").innerHTML=D.comp.map(c=>`<div class="ac${selComp===c.ID?" sel":""}" id="cpc-${c.ID}" onclick="selCF('${c.ID}')" style="border:1px solid ${selComp===c.ID?"var(--comp)":sC(c.Status)}44;"><div style="display:flex;justify-content:space-between;margin-bottom:7px;"><span class="mono" style="font-size:9px;font-weight:700;color:var(--comp);">${c.ID}</span>${pl(c.Status,sC(c.Status))}</div><div style="font-size:12px;font-weight:700;margin-bottom:1px;">${c.Name}</div><div style="font-size:9px;color:var(--muted);margin-bottom:2px;">${c.Make} ${c.Model}</div><div style="font-size:9px;color:var(--rc);font-family:'JetBrains Mono',monospace;margin-bottom:9px;">→ RC: ${c.AssignedTo||"Unassigned"}</div><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><div><div style="font-size:20px;font-weight:900;color:${Number(c.Availability)>=90?"#00e087":Number(c.Availability)>=80?"#f5a800":"#ff3355"};">${c.Availability}%</div><div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">AVAIL</div></div><div style="text-align:right;"><div style="font-size:20px;font-weight:900;">${Number(c.Hours).toLocaleString()}</div><div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">HRS</div></div></div><div class="mono" style="font-size:8px;color:var(--muted);">${c.CFM} CFM | ${c.WorkingPressure} psi</div><div class="mono" style="font-size:8px;font-weight:700;color:${c.HrsToNextPM<0?"#ff3355":c.HrsToNextPM<100?"#f5a800":"#00e087"};margin-top:4px;">${c.HrsToNextPM<0?"⚠ PM OVERDUE "+Math.abs(c.HrsToNextPM)+"h":"NEXT PM: "+c.HrsToNextPM+"h"}</div></div>`).join("");}
+function selCF(id){selComp=selComp===id?null:id;document.querySelectorAll("[id^='cpc-']").forEach(c=>c.classList.remove("sel"));if(selComp)document.getElementById("cpc-"+selComp)?.classList.add("sel");renderCompDet();}
+function renderCompDet(){const el=$("comp-detail");if(!selComp){el.innerHTML="";return;}const c=D.comp.find(x=>x.ID===selComp);if(!c){el.innerHTML="";return;}const rc=D.rc.find(r=>r.ConnectedCompressor===c.ID);const sys=[["Engine",c.Engine],["Air End / Element",c.AirEnd],["Oil Separator",c.OilSeparator],["Cooling System",c.CoolingSystem],["Pressure & Safety Valves",c.PressureValves],["Electrical & Controls",c.Electrical]];const cWOs=D.wo.filter(w=>w.AssetID===c.ID);el.innerHTML=`<div class="dp fade-in" style="border:1px solid rgba(245,168,0,.25);"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><div><div style="font-size:16px;font-weight:800;">${c.Name}</div><div style="font-size:11px;color:var(--muted);">${c.Make} ${c.Model} | ${c.ID} | ${Number(c.Hours).toLocaleString()} hrs | Assigned: ${c.AssignedTo||"Unassigned"}</div></div>${pl(c.Status,sC(c.Status))}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;"><div><div class="st"><div class="sb" style="background:var(--comp);"></div><span class="sl">Compressor Systems</span></div>${sys.map(([n,v])=>`<div class="hr2"><div class="hs">${n}</div><div class="bt"><div class="bf" style="width:${(v/6)*100}%;background:${hC(v)};"></div></div>${pl(hL(v),hC(v))}</div>`).join("")}</div><div><div class="st"><div class="sb" style="background:var(--amber);"></div><span class="sl">Asset Details</span></div>${[["Asset ID",c.ID],["Make / Model",c.Make+" "+c.Model],["Output",c.CFM+" CFM"],["Working Pressure",c.WorkingPressure+" psi"],["Meter Hours",Number(c.Hours).toLocaleString()+" hrs"],["Cost/Hr","$"+c.CostPerHour+"/hr"],["Last PM",c.LastPM],["Next PM",c.NextPM],["Hrs to Next PM",c.HrsToNextPM<0?"OVERDUE "+Math.abs(c.HrsToNextPM)+" hrs":c.HrsToNextPM+" hrs"]].map(([l,v])=>`<div class="ir"><span style="font-size:10px;color:var(--muted);">${l}</span><span style="font-size:11px;font-weight:600;color:${l.includes("Hrs")&&c.HrsToNextPM<0?"#ff3355":"var(--text)"};">${v}</span></div>`).join("")}${rc?`<div style="margin-top:12px;background:rgba(0,200,240,.08);border:1px solid rgba(0,200,240,.2);border-radius:7px;padding:10px;"><div style="font-size:9px;color:var(--muted);margin-bottom:3px;font-family:'JetBrains Mono',monospace;">CONNECTED RC RIG</div><div style="font-size:12px;font-weight:700;color:var(--rc);">${rc.Name}</div><div style="font-size:9px;color:var(--muted);">${rc.Site}</div>${c.Status==="DOWN"?'<div style="font-size:10px;color:#ff3355;font-weight:700;margin-top:5px;">⚠ THIS RC RIG CANNOT DRILL — NO AIR SUPPLY</div>':""}</div>`:""}</div><div><div class="st"><div class="sb" style="background:var(--purple);"></div><span class="sl">Active Work Orders</span></div>${cWOs.length?cWOs.map(w=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span class="mono" style="font-size:9px;color:var(--accent);">${w.ID}</span>${pl(w.Status,wSC(w.Status))}</div><div style="font-size:11px;">${w.Description.substring(0,45)}...</div></div>`).join(""):'<div style="font-size:11px;color:var(--muted);padding:8px 0;">No active WOs</div>'}</div></div></div>`;}
+function buildWOs(){const op=D.wo.filter(w=>w.Status!=="COMPLETED").length;const pr=D.wo.filter(w=>w.Status==="IN PROGRESS").length;const hi=D.wo.filter(w=>w.Priority==="HIGH"&&w.Status!=="COMPLETED").length;const dn=D.wo.filter(w=>w.Status==="COMPLETED").length;$("wo-summary").innerHTML=[{l:"Open WOs",v:op,c:"#f5a800"},{l:"In Progress",v:pr,c:"#00c8f0"},{l:"High Priority",v:hi,c:"#ff3355"},{l:"Completed",v:dn,c:"#00e087"}].map(s=>sumCard(s.v,s.l,s.c)).join("");renderWOT(D.wo);}
+function filterWOs(){const at=$("wof-at")?.value||"",wt=$("wof-wt")?.value||"",pr=$("wof-pr")?.value||"",st=$("wof-st")?.value||"";renderWOT(D.wo.filter(w=>(!at||w.AssetType===at)&&(!wt||w.Type===wt)&&(!pr||w.Priority===pr)&&(!st||w.Status===st)));}
+function clearWOF(){["wof-at","wof-wt","wof-pr","wof-st"].forEach(id=>{const e=$(id);if(e)e.value="";});renderWOT(D.wo);}
+
+function lvStatusCol(s){return s==="AVAILABLE"||s==="ON ROAD"?"#00e087":s==="IN WORKSHOP"?"#f5a800":"#5a6e8a";}
+function lvHealthCol(v){return v<=2?"#00e087":v<=3?"#f5a800":"#ff3355";}
+function daysUntil(dateStr){try{const d=new Date(dateStr);const n=new Date();return Math.round((d-n)/(1000*60*60*24));}catch(e){return 999;}}
+function expiryStatus(dateStr){const days=daysUntil(dateStr);return days<0?"EXPIRED":days<=30?"EXPIRING SOON":"VALID";}
+function expiryCol(dateStr){const days=daysUntil(dateStr);return days<0?"#ff3355":days<=30?"#f5a800":"#00e087";}
+
+function buildLV(){
+  const lvs=D.lv||[];
+  const avail=lvs.filter(v=>v.Status==="AVAILABLE"||v.Status==="ON ROAD").length;
+  const ws=lvs.filter(v=>v.Status==="IN WORKSHOP").length;
+  const comp_exp=lvs.filter(v=>daysUntil(v.RoadworthyExpiry)<0||daysUntil(v.InsuranceExpiry)<0||daysUntil(v.FireExtExpiry)<0||daysUntil(v.FirstAidExpiry)<0).length;
+  const svc_due=lvs.filter(v=>Number(v.KmToNextService)<=0).length;
+  $("lv-summary").innerHTML=[
+    {l:"Available",v:avail,c:"#00e087"},
+    {l:"In Workshop",v:ws,c:"#f5a800"},
+    {l:"Compliance Expired",v:comp_exp,c:comp_exp>0?"#ff3355":"#00e087"},
+    {l:"Service Overdue",v:svc_due,c:svc_due>0?"#ff3355":"#00e087"},
+  ].map(s=>sumCard(s.v,s.l,s.c)).join("");
+
+  // Compliance banner
+  const expired=lvs.filter(v=>daysUntil(v.RoadworthyExpiry)<0||daysUntil(v.InsuranceExpiry)<0||daysUntil(v.FireExtExpiry)<0||daysUntil(v.FirstAidExpiry)<0);
+  const expiring=lvs.filter(v=>{const d=[v.RoadworthyExpiry,v.InsuranceExpiry,v.FireExtExpiry,v.FirstAidExpiry];return d.some(x=>daysUntil(x)>=0&&daysUntil(x)<=30);});
+  let banner="";
+  if(expired.length>0) banner+=`<div style="background:rgba(255,51,85,.1);border:1px solid rgba(255,51,85,.3);border-radius:8px;padding:10px 14px;font-size:11px;margin-bottom:8px;"><strong style="color:#ff3355;">⚠ COMPLIANCE EXPIRED:</strong> ${expired.map(v=>v.Name).join(", ")} — Remove from service immediately. Mine site access will be denied.</div>`;
+  if(expiring.length>0) banner+=`<div style="background:rgba(245,168,0,.08);border:1px solid rgba(245,168,0,.25);border-radius:8px;padding:10px 14px;font-size:11px;"><strong style="color:#f5a800;">⚠ EXPIRING WITHIN 30 DAYS:</strong> ${expiring.map(v=>v.Name).join(", ")} — Renew compliance documents urgently.</div>`;
+  $("lv-compliance-banner").innerHTML=banner;
+
+  // Vehicle cards
+  $("lv-cards").innerHTML=lvs.map(v=>`
+    <div class="ac${selLV===v.ID?" sel":""}" id="lvc-${v.ID}" onclick="selLVf('${v.ID}')" style="border:1px solid ${selLV===v.ID?"var(--lv)":lvStatusCol(v.Status)}44;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:7px;">
+        <span class="mono" style="font-size:9px;font-weight:700;color:var(--lv);">${v.ID}</span>
+        ${pl(v.Status,lvStatusCol(v.Status))}
+      </div>
+      <div style="font-size:11px;font-weight:700;margin-bottom:1px;">${v.Name}</div>
+      <div style="font-size:9px;color:var(--muted);margin-bottom:9px;">${v.Type} | ${v.Site}</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <div><div style="font-size:18px;font-weight:900;color:${Number(v.Availability)>=90?"#00e087":Number(v.Availability)>=75?"#f5a800":"#ff3355"};">${v.Availability}%</div><div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">AVAIL</div></div>
+        <div style="text-align:right;"><div style="font-size:18px;font-weight:900;">${Number(v.Odometer).toLocaleString()}</div><div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">KM</div></div>
+      </div>
+      <div class="mono" style="font-size:8px;font-weight:700;color:${Number(v.KmToNextService)<=0?"#ff3355":Number(v.KmToNextService)<=1000?"#f5a800":"#00e087"};">
+        ${Number(v.KmToNextService)<=0?"⚠ SERVICE OVERDUE "+Math.abs(v.KmToNextService)+"km":"NEXT SVC: "+Number(v.KmToNextService).toLocaleString()+"km"}
+      </div>
+      <div class="mono" style="font-size:8px;margin-top:4px;color:${expiryCol(v.RoadworthyExpiry)};">
+        RW: ${expiryStatus(v.RoadworthyExpiry)}
+      </div>
+      <div class="mono" style="font-size:8px;margin-top:2px;color:${v.PreStartCompliance>=95?"#00e087":v.PreStartCompliance>=85?"#f5a800":"#ff3355"};">
+        Pre-start: ${v.PreStartCompliance}%
+      </div>
+      ${Number(v.TyreTreadMm)<3?`<div class="mono" style="font-size:8px;margin-top:2px;color:#ff3355;">⚠ TYRE TREAD: ${v.TyreTreadMm}mm — BELOW MIN</div>`:""}
+    </div>`).join("");
+
+  // Pre-start compliance table
+  $("lv-prestart").innerHTML=`<table class="dt"><thead><tr><th>VEHICLE</th><th>DRIVER</th><th>COMPLIANCE %</th><th>STATUS</th></tr></thead><tbody>${lvs.map(v=>{const col=v.PreStartCompliance>=95?"#00e087":v.PreStartCompliance>=85?"#f5a800":"#ff3355";const stat=v.PreStartCompliance>=95?"ON TARGET":v.PreStartCompliance>=85?"BELOW TARGET":"ACTION REQUIRED";return `<tr><td style="font-weight:600;">${v.Name}</td><td>${v.Driver}</td><td><div style="display:flex;align-items:center;gap:10px;"><span class="mono" style="font-weight:700;color:${col};">${v.PreStartCompliance}%</span><div class="bt"><div class="bf" style="width:${v.PreStartCompliance}%;background:${col};"></div></div></div></td><td>${pl(stat,col)}</td></tr>`;}).join("")}</tbody></table>`;
+
+  // Compliance expiry table
+  $("lv-expiry").innerHTML=`<table class="dt"><thead><tr><th>VEHICLE</th><th>ROADWORTHY</th><th>INSURANCE</th><th>FIRE EXT</th><th>FIRST AID</th></tr></thead><tbody>${lvs.map(v=>`<tr><td style="font-weight:600;">${v.Name}</td><td style="font-size:10px;color:${expiryCol(v.RoadworthyExpiry)};font-family:'JetBrains Mono',monospace;">${v.RoadworthyExpiry}<br><span style="font-size:9px;">${expiryStatus(v.RoadworthyExpiry)}</span></td><td style="font-size:10px;color:${expiryCol(v.InsuranceExpiry)};font-family:'JetBrains Mono',monospace;">${v.InsuranceExpiry}<br><span style="font-size:9px;">${expiryStatus(v.InsuranceExpiry)}</span></td><td style="font-size:10px;color:${expiryCol(v.FireExtExpiry)};font-family:'JetBrains Mono',monospace;">${v.FireExtExpiry}<br><span style="font-size:9px;">${expiryStatus(v.FireExtExpiry)}</span></td><td style="font-size:10px;color:${expiryCol(v.FirstAidExpiry)};font-family:'JetBrains Mono',monospace;">${v.FirstAidExpiry}<br><span style="font-size:9px;">${expiryStatus(v.FirstAidExpiry)}</span></td></tr>`).join("")}</tbody></table>`;
+
+  // KPIs
+  const avgAvail=lvs.length?Math.round(lvs.reduce((s,v)=>s+Number(v.Availability),0)/lvs.length):0;
+  const avgFuel=lvs.length?Math.round(lvs.reduce((s,v)=>s+Number(v.FuelL100km),0)/lvs.length*10)/10:0;
+  const avgPSC=lvs.length?Math.round(lvs.reduce((s,v)=>s+Number(v.PreStartCompliance),0)/lvs.length):0;
+  const avgCPK=lvs.length?Math.round(lvs.reduce((s,v)=>s+Number(v.CostPerKm),0)/lvs.length*100)/100:0;
+  $("lv-kpis").innerHTML=[
+    {l:"Fleet Availability",v:avgAvail+"%",c:avgAvail>=90?"#00e087":avgAvail>=80?"#f5a800":"#ff3355",t:"Target ≥ 90%"},
+    {l:"Pre-Start Compliance",v:avgPSC+"%",c:avgPSC>=95?"#00e087":avgPSC>=85?"#f5a800":"#ff3355",t:"Target 100%"},
+    {l:"Avg Fuel (L/100km)",v:avgFuel+" L",c:avgFuel<=15?"#00e087":avgFuel<=22?"#f5a800":"#ff3355",t:"Monitor trend"},
+    {l:"Avg Cost per km",v:"$"+avgCPK+"/km",c:avgCPK<=2.5?"#00e087":avgCPK<=3.5?"#f5a800":"#ff3355",t:"Monitor trend"},
+    {l:"Vehicles Service Overdue",v:svc_due,c:svc_due===0?"#00e087":"#ff3355",t:"Target: 0"},
+    {l:"Compliance Documents Expired",v:comp_exp,c:comp_exp===0?"#00e087":"#ff3355",t:"Must be 0 at all times"},
+    {l:"Tyres Below 3mm",v:lvs.filter(v=>Number(v.TyreTreadMm)<3).length,c:lvs.filter(v=>Number(v.TyreTreadMm)<3).length===0?"#00e087":"#ff3355",t:"Mine minimum: 3mm"},
+    {l:"Vehicles in Workshop",v:ws,c:"#f5a800",t:"Track downtime impact"},
+  ].map(k=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);"><div><div style="font-size:11px;font-weight:600;">${k.l}</div><div style="font-size:9px;color:var(--muted);">${k.t}</div></div><div style="font-size:16px;font-weight:900;color:${k.c};">${k.v}</div></div>`).join("");
+
+  // Fleet register table
+  $("lv-register").innerHTML=lvs.map(v=>`<tr>
+    <td class="mono" style="color:var(--lv);">${v.ID}</td>
+    <td>${pl(v.Type,"#00b4a0")}</td>
+    <td style="font-size:10px;">${v.Make} ${v.Model}</td>
+    <td class="mono">${Number(v.Odometer).toLocaleString()} km</td>
+    <td class="mono" style="color:${Number(v.KmToNextService)<=0?"#ff3355":Number(v.KmToNextService)<=1000?"#f5a800":"#00e087"};">${Number(v.KmToNextService)<=0?"OVERDUE "+Math.abs(v.KmToNextService)+"km":Number(v.KmToNextService).toLocaleString()+"km"}</td>
+    <td style="font-size:10px;color:${expiryCol(v.RoadworthyExpiry)};">${v.RoadworthyExpiry}</td>
+    <td class="mono" style="color:${Number(v.Availability)>=90?"#00e087":Number(v.Availability)>=80?"#f5a800":"#ff3355"};">${v.Availability}%</td>
+    <td>${pl(v.Status,lvStatusCol(v.Status))}</td>
+  </tr>`).join("");
+}
+
+function selLVf(id){selLV=selLV===id?null:id;document.querySelectorAll("[id^='lvc-']").forEach(c=>c.classList.remove("sel"));if(selLV)document.getElementById("lvc-"+selLV)?.classList.add("sel");renderLVDet();}
+
+function renderLVDet(){
+  const el=$("lv-detail");if(!selLV){el.innerHTML="";return;}
+  const v=(D.lv||[]).find(x=>x.ID===selLV);if(!v){el.innerHTML="";return;}
+  const sys=[["Engine",v.Engine],["Tyres",v.Tyres],["Brakes",v.Brakes],["Electrical",v.Electrical],["Body & Chassis",v.BodyChassis]];
+  const lWOs=D.wo.filter(w=>w.AssetID===v.ID);
+  el.innerHTML=`<div class="dp fade-in" style="border:1px solid rgba(0,180,160,.25);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div><div style="font-size:16px;font-weight:800;">${v.Name}</div><div style="font-size:11px;color:var(--muted);">${v.Type} | ${v.Site} | ${Number(v.Odometer).toLocaleString()} km | Driver: ${v.Driver}</div></div>
+      ${pl(v.Status,lvStatusCol(v.Status))}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;">
+      <div>
+        <div class="st"><div class="sb" style="background:var(--lv);"></div><span class="sl">Vehicle System Health</span></div>
+        ${sys.map(([n,val])=>`<div class="hr2"><div class="hs">${n}</div><div class="bt"><div class="bf" style="width:${(val/6)*100}%;background:${lvHealthCol(val)};"></div></div>${pl(lvHealthCol(val)==="#00e087"?"GOOD":lvHealthCol(val)==="#f5a800"?"MONITOR":"ATTENTION",lvHealthCol(val))}</div>`).join("")}
+        <div style="margin-top:12px;">
+          <div class="st"><div class="sb" style="background:var(--amber);"></div><span class="sl">Tyre Status</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span style="font-size:11px;color:var(--muted);">Tread Depth</span><span style="font-size:12px;font-weight:700;color:${Number(v.TyreTreadMm)>=4?"#00e087":Number(v.TyreTreadMm)>=3?"#f5a800":"#ff3355"};">${v.TyreTreadMm}mm ${Number(v.TyreTreadMm)<3?"⚠ REPLACE":Number(v.TyreTreadMm)<4?"MONITOR":""}</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="st"><div class="sb" style="background:var(--amber);"></div><span class="sl">Service & Compliance</span></div>
+        ${[
+          ["Odometer",Number(v.Odometer).toLocaleString()+" km"],
+          ["Last Service",v.LastService],
+          ["Next Service Due",Number(v.NextServiceKm).toLocaleString()+" km"],
+          ["Km to Next Service",Number(v.KmToNextService)<=0?"OVERDUE "+Math.abs(v.KmToNextService)+"km":Number(v.KmToNextService).toLocaleString()+" km"],
+          ["Fuel Consumption",v.FuelL100km+" L/100km"],
+          ["Cost per km","$"+v.CostPerKm+"/km"],
+          ["Roadworthy Expiry",v.RoadworthyExpiry+" — "+expiryStatus(v.RoadworthyExpiry)],
+          ["Insurance Expiry",v.InsuranceExpiry+" — "+expiryStatus(v.InsuranceExpiry)],
+          ["Fire Extinguisher",v.FireExtExpiry+" — "+expiryStatus(v.FireExtExpiry)],
+          ["First Aid Kit",v.FirstAidExpiry+" — "+expiryStatus(v.FirstAidExpiry)],
+          ["Pre-Start Compliance",v.PreStartCompliance+"%"],
+        ].map(([l,val])=>`<div class="ir"><span style="font-size:10px;color:var(--muted);">${l}</span><span style="font-size:11px;font-weight:600;color:${(l.includes("km")&&Number(v.KmToNextService)<=0)||(l.includes("Expiry")&&val.includes("EXPIRED"))||(l.includes("Pre-Start")&&v.PreStartCompliance<85)?"#ff3355":"var(--text)"};">${val}</span></div>`).join("")}
+      </div>
+      <div>
+        <div class="st"><div class="sb" style="background:var(--purple);"></div><span class="sl">Active Work Orders</span></div>
+        ${lWOs.length?lWOs.map(w=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span class="mono" style="font-size:9px;color:var(--accent);">${w.ID}</span>${pl(w.Status,wSC(w.Status))}</div><div style="font-size:11px;">${w.Description.substring(0,45)}...</div></div>`).join(""):'<div style="font-size:11px;color:var(--muted);padding:8px 0;">No active WOs</div>'}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderWOT(wos){const c=$("wo-count");if(c)c.textContent=`(${wos.length} records)`;$("wo-tbody").innerHTML=wos.map(w=>`<tr><td class="mono" style="color:var(--accent);">${w.ID}</td><td style="font-weight:600;">${w.AssetID}</td><td>${pl(w.AssetType||"",aTC(w.AssetType||""))}</td><td>${pl(w.Type,wTC(w.Type))}</td><td>${pl(w.Priority,pC(w.Priority))}</td><td style="color:var(--muted);">${w.System}</td><td style="max-width:180px;">${w.Description}</td><td>${w.Technician}</td><td class="mono">${w.DueDate}</td><td class="mono" style="text-align:center;">${w.Hours}h</td><td class="mono" style="color:${Number(w.DowntimeCost)>0?"#ff3355":"var(--muted)"};">${Number(w.DowntimeCost)>0?"$"+Number(w.DowntimeCost).toLocaleString():"—"}</td><td>${pl(w.Status,wSC(w.Status))}</td></tr>`).join("");}
+function buildCal(){renderCal();const a=all();$("cal-summary").innerHTML=[{l:"Due This Month",v:a.filter(x=>Number(x.HrsToNextPM)<=30&&Number(x.HrsToNextPM)>0).length,c:"#f5a800"},{l:"Overdue",v:a.filter(x=>Number(x.HrsToNextPM)<0).length,c:"#ff3355"},{l:"PMs Completed",v:D.wo.filter(w=>w.Type==="PM"&&w.Status==="COMPLETED").length,c:"#00e087"}].map(s=>sumCard(s.v,s.l,s.c)).join("");$("cal-list").innerHTML=a.map(x=>{const t=typeOf(x);const col=x.HrsToNextPM<0?"#ff3355":x.HrsToNextPM<100?"#f5a800":"#00e087";const stat=x.HrsToNextPM<0?"OVERDUE":x.HrsToNextPM<100?"DUE SOON":"SCHEDULED";return `<tr><td class="mono" style="color:${aTC(t)};">${x.ID}</td><td style="font-weight:600;">${x.Name}</td><td>${pl(t==="COMPRESSOR"?"COMP":t,aTC(t))}</td><td class="mono">${x.NextPM||"—"}</td><td class="mono" style="color:${col};">${x.HrsToNextPM<0?"OVERDUE "+Math.abs(x.HrsToNextPM)+"h":x.HrsToNextPM+"h"}</td><td class="mono">${x.LastPM||"—"}</td><td>${pl(stat,col)}</td></tr>`;}).join("");}
+function renderCal(){const days=["SUN","MON","TUE","WED","THU","FRI","SAT"];const months=["January","February","March","April","May","June","July","August","September","October","November","December"];const el=$("cal-label");if(el)el.textContent=months[calM]+" "+calY;const hdr=$("cal-hdrs");if(hdr)hdr.innerHTML=days.map(d=>`<div class="cal-hdr">${d}</div>`).join("");const grid=$("cal-grid");if(!grid)return;const first=new Date(calY,calM,1).getDay(),dim=new Date(calY,calM+1,0).getDate(),today=new Date();let html="";for(let i=0;i<first;i++)html+=`<div></div>`;const a=all();for(let d=1;d<=dim;d++){const isT=d===today.getDate()&&calM===today.getMonth()&&calY===today.getFullYear();let ev="";a.forEach(x=>{try{const nd=new Date(x.NextPM);if(nd.getDate()===d&&nd.getMonth()===calM&&nd.getFullYear()===calY){const t=typeOf(x);const col=aTC(t==="COMPRESSOR"?"COMPRESSOR":t);ev+=`<div class="cal-event" style="background:${col}22;color:${col};border-left:2px solid ${col};">${x.ID.replace("DGL-","")}</div>`;}}catch(e){}});html+=`<div class="cal-day" style="background:${isT?"var(--surface3)":"var(--surface2)"};border:1px solid ${isT?"var(--accent)":"var(--border)"};"><div style="font-size:9px;font-weight:${isT?"800":"500"};color:${isT?"var(--accent)":"var(--muted)"};">${d}</div>${ev}</div>`;}grid.innerHTML=html;}
+function prevMonth(){calM--;if(calM<0){calM=11;calY--;}renderCal();}
+function nextMonth(){calM++;if(calM>11){calM=0;calY++;}renderCal();}
+function goToday(){const n=new Date();calM=n.getMonth();calY=n.getFullYear();renderCal();}
+function buildKPIs(){$("kpi-grid").innerHTML=D.kpis.map(k=>`<div class="card-sm"><div class="kl">${k.Metric}</div><div class="kv" style="color:${kC(k.Status)};">${k.Value}</div><div class="kf"><span class="kt">TGT ${k.Target}</span><span class="ktr" style="color:${kC(k.Status)};">${k.Trend}</span></div><div style="margin-top:8px;height:3px;background:var(--border);border-radius:2px;"><div style="height:100%;width:${k.Status==="green"?"85%":k.Status==="amber"?"60%":"35%"};background:${kC(k.Status)};border-radius:2px;"></div></div></div>`).join("");const tot=D.wo.length||1;const pm=D.wo.filter(w=>w.Type==="PM").length;const pdm=D.wo.filter(w=>w.Type==="PdM").length;const cm=D.wo.filter(w=>w.Type==="CORRECTIVE").length;const rx=D.wo.filter(w=>w.Type==="REACTIVE").length;$("maint-bd").innerHTML=[{l:"Preventive (PM)",v:Math.round(pm/tot*100),c:"#00e087"},{l:"Predictive (PdM)",v:Math.round(pdm/tot*100),c:"#a855f7"},{l:"Corrective",v:Math.round(cm/tot*100),c:"#00c8f0"},{l:"Reactive",v:Math.round(rx/tot*100),c:"#ff3355"}].map(b=>`<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:11px;">${b.l}</span><span style="font-size:10px;font-weight:700;color:${b.c};font-family:'JetBrains Mono',monospace;">${b.v}%</span></div><div class="bt"><div class="bf" style="width:${b.v}%;background:${b.c};"></div></div></div>`).join("");const rcAv=D.rc.length?Math.round(D.rc.reduce((s,r)=>s+Number(r.Availability),0)/D.rc.length):0;const ddAv=D.dd.length?Math.round(D.dd.reduce((s,d)=>s+Number(d.Availability),0)/D.dd.length):0;const cAv=D.comp.length?Math.round(D.comp.reduce((s,c)=>s+Number(c.Availability),0)/D.comp.length):0;$("avail-type").innerHTML=[{l:"RC Drilling Rigs",v:rcAv,c:"#00c8f0",t:85},{l:"Diamond Drill Rigs",v:ddAv,c:"#a855f7",t:85},{l:"External Compressors",v:cAv,c:"#f5a800",t:90}].map(b=>`<div style="margin-bottom:16px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:12px;font-weight:600;">${b.l}</span><span style="font-size:14px;font-weight:900;color:${b.v>=b.t?"#00e087":b.v>=b.t-10?"#f5a800":"#ff3355"};">${b.v}%</span></div><div class="bt" style="height:8px;"><div class="bf" style="width:${b.v}%;background:${b.c};height:8px;"></div></div><div style="font-size:9px;color:var(--muted);margin-top:3px;">Target ≥ ${b.t}% — ${b.v>=b.t?"ON TARGET":"BELOW TARGET"}</div></div>`).join("");$("cph-chart").innerHTML=`<div style="display:flex;gap:6px;align-items:flex-end;height:100px;">${all().map(a=>{const h=Math.min(Number(a.CostPerHour)||0,100);const t=D.rc.includes(a)?"#00c8f0":D.dd.includes(a)?"#a855f7":"#f5a800";return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;"><div style="font-size:8px;color:${t};font-family:'JetBrains Mono',monospace;">$${a.CostPerHour}</div><div style="width:100%;height:${h}px;background:${t};border-radius:3px 3px 0 0;"></div><div style="font-size:7px;color:var(--muted);text-align:center;font-family:'JetBrains Mono',monospace;">${a.ID.replace("DGL-","")}</div></div>`;}).join("")}</div><div style="font-size:9px;color:var(--muted);margin-top:8px;">RC = blue | DD = purple | Compressor = amber | Lower = better</div>`;}
+function buildAnalytics(){const svg=$("bath-svg");if(svg){const W=500,H=170,p=38;const pts=[];for(let x=0;x<=W-p*2;x+=5){const t=x/(W-p*2);const y=H-p-(3*Math.exp(-t*8)+0.5+2*Math.exp((t-1)*6))*16;pts.push(`${x+p},${Math.max(p,y)}`);}const ps=pts.join(" ");svg.innerHTML=`<defs><linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a855f7" stop-opacity=".25"/><stop offset="100%" stop-color="#a855f7" stop-opacity=".02"/></linearGradient></defs><line x1="${p}" y1="${H-p}" x2="${W-p}" y2="${H-p}" stroke="var(--border2)" stroke-width="1"/><line x1="${p}" y1="${p}" x2="${p}" y2="${H-p}" stroke="var(--border2)" stroke-width="1"/><text x="${W/2}" y="${H-6}" text-anchor="middle" fill="var(--muted)" font-size="9" font-family="JetBrains Mono">Operating Hours →</text><text x="14" y="${H/2}" text-anchor="middle" fill="var(--muted)" font-size="9" font-family="JetBrains Mono" transform="rotate(-90,14,${H/2})">Failure Rate</text><polygon points="${p},${H-p} ${ps} ${W-p},${H-p}" fill="url(#bg2)"/><polyline points="${ps}" fill="none" stroke="#a855f7" stroke-width="2.5" stroke-linejoin="round"/><line x1="${p+55}" y1="${p}" x2="${p+55}" y2="${H-p}" stroke="var(--red)" stroke-width="1" stroke-dasharray="4,3"/><line x1="${W-p-75}" y1="${p}" x2="${W-p-75}" y2="${H-p}" stroke="var(--amber)" stroke-width="1" stroke-dasharray="4,3"/>${all().map((a)=>{const xP=Math.min(p+((Number(a.Hours)/10000)*(W-p*2)),W-p-8);const col=D.rc.includes(a)?"#00c8f0":D.dd.includes(a)?"#a855f7":"#f5a800";return `<circle cx="${xP}" cy="${H-p-18}" r="5" fill="${col}" stroke="var(--bg)" stroke-width="2"/><text x="${xP}" y="${H-p-26}" text-anchor="middle" fill="${col}" font-size="7" font-family="JetBrains Mono">${a.ID.replace("DGL-","")}</text>`;}).join("")}`;}
+const fm={};D.wo.filter(w=>w.System).forEach(w=>{fm[w.System]=(fm[w.System]||0)+1;});const fmS=Object.entries(fm).sort((a,b)=>b[1]-a[1]);const fmM=fmS[0]?.[1]||1;$("fail-freq").innerHTML=fmS.length?fmS.map(([s,c],i)=>{const col=["#ff3355","#f5a800","#a855f7","#00c8f0","#00e087","#5a6e8a","#00b4a0","#ffd700"][i]||"#5a6e8a";return `<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:11px;">${s}</span><span style="font-size:10px;font-weight:700;color:${col};font-family:'JetBrains Mono',monospace;">${c} events</span></div><div class="bt"><div class="bf" style="width:${(c/fmM)*100}%;background:${col};"></div></div></div>`;}).join(""):'<div style="font-size:11px;color:var(--muted);padding:16px;text-align:center;">No failure data yet</div>';
+$("pf-track").innerHTML=[{c:"Track Idler Bearing (RC)",pf:"250 hrs",a:"Greasing — nipple check",i:"250 hrs",s:"Within window"},{c:"Bean Pump Seal (DD)",pf:"300 hrs",a:"Visual leak check + seal inspection",i:"250 hrs",s:"Within window"},{c:"Compressor Air End (Comp)",pf:"200 hrs",a:"Oil analysis + vibration check",i:"250 hrs",s:"Review — P-F shorter than interval"},{c:"Wireline Cable (DD)",pf:"500 hrs",a:"Visual inspection + diameter measure",i:"500 hrs",s:"Within window"},{c:"Oil Separator Blockage (Comp)",pf:"150 hrs",a:"Differential pressure monitoring",i:"250 hrs",s:"⚠ Interval too wide — shorten to 150hr"},{c:"Hydraulic Hoses (All)",pf:"400 hrs",a:"Visual + pressure test",i:"500 hrs",s:"Review interval"},{c:"Core Barrel Wear (DD)",pf:"300 hrs",a:"Core barrel diameter measurement",i:"500 hrs",s:"Review — P-F shorter than interval"}].map(p=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);"><div><div style="font-size:11px;font-weight:600;">${p.c}</div><div style="font-size:9px;color:var(--muted);">${p.a}</div></div><div style="text-align:right;"><div style="font-size:9px;color:var(--accent);font-family:'JetBrains Mono',monospace;">P-F: ${p.pf}</div><div style="font-size:9px;color:${p.s.includes("⚠")||p.s.includes("Review")?"#f5a800":"#00e087"};">${p.s}</div></div></div>`).join("");
+$("rul-track").innerHTML=all().map(a=>{const kl=D.rc.includes(a)?["Engine","Hydraulics","Track","RotationHead","RCSampleSystem","Electrical"]:D.dd.includes(a)?["Engine","Hydraulics","RotationHead","BeanPump","WirelineWinch","WaterPump","RodHandling","CoreBarrel","MastFeed","Electrical"]:["Engine","AirEnd","OilSeparator","CoolingSystem","PressureValves","Electrical"];const avg=Math.round(kl.reduce((s,k)=>s+Number(a[k]||3),0)/kl.length*10)/10;const rul=avg<=2?"> 3,000 hrs":avg<=3?"1,000–3,000 hrs":avg<=4?"500–1,000 hrs":"< 500 hrs — PLAN OVERHAUL";const col=avg<=2?"#00e087":avg<=3?"#f5a800":"#ff3355";const t=D.rc.includes(a)?"RC":D.dd.includes(a)?"DD":"COMP";return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);"><div><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;font-weight:600;">${a.Name}</span>${pl(t,aTC(t==="COMP"?"COMPRESSOR":t))}</div><div style="font-size:9px;color:var(--muted);">${Number(a.Hours).toLocaleString()} hrs | Avg health: ${avg}/6</div></div><div style="font-size:9px;color:${col};font-family:'JetBrains Mono',monospace;font-weight:700;text-align:right;">${rul}</div></div>`;}).join("");}
+function buildTechs(){const dn=D.techs.reduce((s,t)=>s+Number(t.WOsCompleted||0),0);const op=D.techs.reduce((s,t)=>s+Number(t.WOsOpen||0),0);const on=D.techs.filter(t=>t.Status==="ON SHIFT").length;$("tech-summary").innerHTML=[{l:"On Shift",v:on,c:"#00e087"},{l:"Off Shift",v:D.techs.length-on,c:"#5a6e8a"},{l:"WOs Completed",v:dn,c:"#00c8f0"},{l:"WOs Open",v:op,c:"#f5a800"}].map(s=>sumCard(s.v,s.l,s.c)).join("");$("tech-board").innerHTML=`<table class="dt"><thead><tr><th>NAME</th><th>ROLE</th><th>SPECIALISATION</th><th>WOs DONE</th><th>WOs OPEN</th><th>HRS</th><th>STATUS</th></tr></thead><tbody>${D.techs.map(t=>`<tr><td style="font-weight:700;">${t.Name}</td><td style="color:var(--muted);">${t.Role}</td><td>${t.Specialisation}</td><td class="mono" style="color:var(--green);">${t.WOsCompleted}</td><td class="mono" style="color:var(--amber);">${t.WOsOpen}</td><td class="mono">${t.HoursLogged}h</td><td>${pl(t.Status,t.Status==="ON SHIFT"?"#00e087":"#5a6e8a")}</td></tr>`).join("")}</tbody></table>`;const mx=Math.max(...D.techs.map(t=>Number(t.WOsCompleted||0)))||1;$("tech-wl").innerHTML=D.techs.map(t=>{const pct=Math.round((Number(t.WOsCompleted||0)/mx)*100);const col=pct>=80?"#00e087":pct>=50?"#00c8f0":"#f5a800";return `<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:12px;font-weight:600;">${t.Name}</span><span style="font-size:10px;color:${col};font-family:'JetBrains Mono',monospace;">${t.WOsCompleted} WOs | ${t.HoursLogged}h</span></div><div class="bt"><div class="bf" style="width:${pct}%;background:${col};"></div></div><div style="font-size:9px;color:var(--muted);margin-top:2px;">${t.Specialisation}</div></div>`;}).join("");}
+function buildSpares(){const so=D.spares.filter(s=>s.Status==="STOCK-OUT").length;const bm=D.spares.filter(s=>Number(s.CurrentStock)<Number(s.MinStock)).length;const tv=D.spares.reduce((s,x)=>s+Number(x.CurrentStock||0)*Number(x.UnitCost||0),0);$("spare-summary").innerHTML=[{l:"Stock-Outs",v:so,c:"#ff3355",d:"Order immediately"},{l:"Below Minimum",v:bm,c:"#f5a800",d:"Reorder required"},{l:"Total Stock Value",v:"$"+tv.toLocaleString(),c:"#00e087",d:"Current inventory"}].map(s=>`<div class="card-sm" style="border-color:${s.c!=="#00e087"&&s.v>0?s.c+"44":"var(--border)"}"><div style="font-size:32px;font-weight:900;color:${s.c};">${s.v}</div><div style="font-size:11px;font-weight:600;margin:4px 0 2px;">${s.l}</div><div style="font-size:9px;color:var(--muted);">${s.d}</div></div>`).join("");const al=D.spares.filter(s=>Number(s.CurrentStock)<Number(s.MinStock));$("spare-alerts").innerHTML=al.length?al.map(s=>{const col=s.Status==="STOCK-OUT"?"#ff3355":"#f5a800";return `<div style="display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px;"><div style="display:flex;align-items:center;"><div style="width:4px;height:44px;border-radius:2px;background:${col};margin-right:12px;flex-shrink:0;"></div><div><div style="font-size:12px;font-weight:600;">${s.Name}</div><div style="font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;">Part: ${s.PartNumber} | Class ${s.Class} | ${s.Supplier||"TBD"} | Lead: ${s.LeadTimeDays||"?"} day(s)</div></div></div><div style="display:flex;gap:18px;align-items:center;"><div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:${Number(s.CurrentStock)===0?"#ff3355":"#f5a800"};">${s.CurrentStock}</div><div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">IN STOCK</div></div><div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:var(--muted);">${s.MinStock}</div><div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">MINIMUM</div></div>${pl(s.Status,col)}<button class="btn-sm">RAISE PO ↗</button></div></div>`;}).join(""):'<div style="font-size:12px;color:var(--green);padding:16px;text-align:center;">✓ All critical spares above minimum stock</div>';$("cost-bars").innerHTML=D.costs.map(c=>{const ov=Number(c.Actual)>Number(c.Budget);return `<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:11px;">${c.Category}</span><span style="font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:700;color:${ov?"#ff3355":"#00e087"};">$${Number(c.Actual).toLocaleString()} / $${Number(c.Budget).toLocaleString()}${ov?" ▲":" ✓"}</span></div><div style="position:relative;height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${Math.min(Number(c.Actual)/Number(c.Budget)*100,100)}%;background:${ov?"#ff3355":Number(c.Actual)/Number(c.Budget)>0.85?"#f5a800":"#00e087"};border-radius:3px;"></div></div></div>`;}).join("");$("spares-tbl").innerHTML=D.spares.map(s=>`<tr><td style="font-weight:600;">${s.Name}</td><td class="mono" style="color:var(--muted);">${s.PartNumber}</td><td>${pl("CLASS "+s.Class,s.Class==="A"?"#ff3355":s.Class==="B"?"#f5a800":s.Class==="X"?"#a855f7":"#5a6e8a")}</td><td class="mono" style="text-align:center;">${s.CurrentStock}</td><td class="mono" style="text-align:center;">${s.MinStock}</td><td class="mono">$${Number(s.UnitCost).toLocaleString()}</td><td class="mono" style="color:var(--accent);font-weight:700;">$${(Number(s.CurrentStock)*Number(s.UnitCost)).toLocaleString()}</td><td>${pl(s.Status||"OK",s.Status==="STOCK-OUT"?"#ff3355":s.Status==="BELOW MIN"?"#f5a800":"#00e087")}</td></tr>`).join("");}
+function calcROI(){const ch=Number($("roi-ch")?.value||8000),br=Number($("roi-br")?.value||30),ah=Number($("roi-ah")?.value||6),red=Number($("roi-red")?.value||40)/100,ic=Number($("roi-ic")?.value||15000),rc2=Number($("roi-rc")?.value||5000);const cc=ch*br*ah,sh=Math.round(br*ah*red),ss=Math.round(cc*red),net=ss-rc2,pb=net>0?Math.round((ic/net)*12):999;const sv=$("roi-savings");if(sv)sv.textContent="$"+net.toLocaleString();const hv=$("roi-hours");if(hv)hv.textContent=sh+" hrs";const pv=$("roi-payback");if(pv)pv.textContent=pb<=24?pb+" months":"> 2 years";const st=$("roi-stmt");if(st)st.innerHTML=`<div style="background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:18px;line-height:1.9;font-size:12px;"><div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;">SMARTIS Reliability Program — ROI Justification — Deeprock Ghana Limited</div><p>Deeprock Ghana Limited operates a mixed fleet of RC drilling rigs (requiring external compressors), diamond drill rigs (using bean pump water circulation systems), and standalone external compressors. The fleet is currently experiencing approximately <strong style="color:var(--amber);">${br} unplanned breakdown events per year</strong>, averaging <strong style="color:var(--amber);">${ah} hours</strong> per event at a cost of <strong style="color:var(--red);">$${ch.toLocaleString()} per hour</strong>.</p><br><p>This represents an <strong style="color:var(--red);">annual unplanned downtime cost of $${cc.toLocaleString()}</strong>. Critically, compressor failures create cascade events — when an external compressor goes down, the connected RC rig also stops drilling, compounding the impact. Similarly, bean pump failures on DD rigs halt water circulation and stop all drilling operations immediately.</p><br><p>The SMARTIS Reliability Program addresses all three asset types through improved PM compliance, structured root cause analysis, predictive monitoring and real-time fleet visibility. A projected <strong style="color:var(--green);">${Math.round(red*100)}% reduction</strong> in breakdown frequency delivers:</p><br><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0;"><div style="background:rgba(0,224,135,.08);border:1px solid rgba(0,224,135,.2);border-radius:8px;padding:12px;text-align:center;"><div style="font-size:18px;font-weight:900;color:var(--green);">${sh} hrs</div><div style="font-size:9px;color:var(--muted);">Downtime hours prevented per year</div></div><div style="background:rgba(0,224,135,.08);border:1px solid rgba(0,224,135,.2);border-radius:8px;padding:12px;text-align:center;"><div style="font-size:18px;font-weight:900;color:var(--green);">$${net.toLocaleString()}</div><div style="font-size:9px;color:var(--muted);">Net annual savings after program costs</div></div><div style="background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2);border-radius:8px;padding:12px;text-align:center;"><div style="font-size:18px;font-weight:900;color:var(--purple);">${pb} months</div><div style="font-size:9px;color:var(--muted);">Full program payback period</div></div></div><br><p>At an implementation cost of <strong>$${ic.toLocaleString()}</strong> and annual running cost of <strong>$${rc2.toLocaleString()}</strong>, SMARTIS delivers a <strong style="color:var(--green);">first-year return of ${Math.round(net/ic*100)}%</strong>. Prepared by Shaddy, Maintenance Officer — Deeprock Ghana Limited.</p></div>`;}
+function buildShift(){const dr=D.rc.filter(r=>r.Status==="DRILLING").length+D.dd.filter(d=>d.Status==="DRILLING").length;const dn=D.wo.filter(w=>w.Status==="COMPLETED").length;const op=D.wo.filter(w=>w.Status!=="COMPLETED").length;const hi=D.wo.filter(w=>w.Priority==="HIGH"&&w.Status!=="COMPLETED").length;$("shift-kpis").innerHTML=[{l:"Rigs Drilling",v:dr,c:"#00e087"},{l:"WOs Completed",v:dn,c:"#00c8f0"},{l:"Outstanding WOs",v:op,c:"#f5a800"},{l:"High Priority",v:hi,c:"#ff3355"}].map(s=>sumCard(s.v,s.l,s.c)).join("");$("shift-done").innerHTML=D.wo.filter(w=>w.Status==="COMPLETED").map(w=>`<div style="padding:7px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;"><span class="mono" style="font-size:9px;color:var(--accent);">${w.ID}</span>${pl("COMPLETED","#00e087")}</div><div style="font-size:11px;margin-top:2px;">${w.AssetID} — ${w.Description.substring(0,45)}</div><div style="font-size:9px;color:var(--muted);">Tech: ${w.Technician} | ${w.Hours}h</div></div>`).join("")||'<div style="font-size:11px;color:var(--muted);padding:12px 0;">No completed WOs</div>';$("shift-out").innerHTML=D.wo.filter(w=>w.Status!=="COMPLETED").map(w=>`<div style="padding:7px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;">${pl(w.Priority,pC(w.Priority))} ${pl(w.Status,wSC(w.Status))}</div><div style="font-size:11px;margin-top:2px;"><span class="mono" style="color:var(--accent);">${w.ID}</span> — ${w.AssetID} — ${w.Description.substring(0,40)}</div><div style="font-size:9px;color:var(--muted);">Tech: ${w.Technician} | Due: ${w.DueDate}</div></div>`).join("")||'<div style="font-size:11px;color:var(--green);padding:12px 0;">All WOs complete ✓</div>';$("shift-fleet").innerHTML=[...all(),...(D.lv||[])].map(a=>{const isLV=(D.lv||[]).includes(a);const t=isLV?"LV":typeOf(a);return `<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><div style="display:flex;align-items:center;gap:7px;"><div style="width:6px;height:6px;border-radius:50%;background:${isLV?lvStatusCol(a.Status):sC(a.Status)};"></div><div><div style="font-size:11px;font-weight:600;">${a.Name}</div><div style="font-size:9px;color:var(--muted);">${a.Site}</div></div></div><div style="display:flex;align-items:center;gap:5px;">${pl(t,aTC(t))} ${pl(a.Status,isLV?lvStatusCol(a.Status):sC(a.Status))}</div></div>`;}).join("");}
+
+// ══ THEME TOGGLE ═══════════════════════════════════════════════════════════
+function toggleTheme(){
+  const b=document.body,btn=$("theme-btn");
+  b.classList.toggle("light-mode");
+  const isL=b.classList.contains("light-mode");
+  btn.textContent=isL?"☀ LIGHT":"🌙 DARK";
+  localStorage.setItem("smartis-theme",isL?"light":"dark");
+}
+(function(){const t=localStorage.getItem("smartis-theme");if(t==="light"){document.body.classList.add("light-mode");const b=$("theme-btn");if(b)b.textContent="☀ LIGHT";}})();
+
+// ══ NOTIFICATIONS ══════════════════════════════════════════════════════════
+let notifOpen=false;
+function toggleNotifPanel(){
+  notifOpen=!notifOpen;
+  const p=$("notif-panel");
+  if(p)p.style.display=notifOpen?"block":"none";
+  if(notifOpen)buildNotifPanel();
+}
+function buildNotifPanel(){
+  const items=[];
+  all().filter(a=>a.Status==="BREAKDOWN"||a.Status==="DOWN").forEach(a=>{items.push({l:"CRITICAL",m:`${a.Name} — OFFLINE. Immediate action required.`,c:"#ff3355",t:new Date().toLocaleTimeString()});});
+  D.comp.filter(c=>c.Status==="DOWN").forEach(c=>{const rc=D.rc.find(r=>r.ConnectedCompressor===c.ID);if(rc)items.push({l:"CASCADE",m:`${c.Name} DOWN → ${rc.Name} has no air. Both assets affected.`,c:"#ff3355",t:new Date().toLocaleTimeString()});});
+  all().filter(a=>Number(a.HrsToNextPM)<0).forEach(a=>{items.push({l:"PM OVERDUE",m:`${a.Name} — PM overdue by ${Math.abs(a.HrsToNextPM)} hrs`,c:"#f5a800",t:new Date().toLocaleTimeString()});});
+  (D.lv||[]).filter(v=>daysUntil(v.RoadworthyExpiry)<0||daysUntil(v.InsuranceExpiry)<0||daysUntil(v.FireExtExpiry)<0||daysUntil(v.FirstAidExpiry)<0).forEach(v=>{items.push({l:"LV COMPLIANCE",m:`${v.Name} — compliance document expired`,c:"#ff3355",t:new Date().toLocaleTimeString()});});
+  D.spares.filter(s=>s.Status==="STOCK-OUT").forEach(s=>{items.push({l:"STOCK-OUT",m:`${s.Name} (${s.PartNumber}) — Class ${s.Class}. Lead: ${s.LeadTimeDays}d`,c:"#ff3355",t:new Date().toLocaleTimeString()});});
+  all().filter(a=>Number(a.HrsToNextPM)>=0&&Number(a.HrsToNextPM)<=50).forEach(a=>{items.push({l:"PM DUE SOON",m:`${a.Name} — PM due in ${a.HrsToNextPM} hrs`,c:"#f5a800",t:new Date().toLocaleTimeString()});});
+  (D.lv||[]).filter(v=>{const d=[v.RoadworthyExpiry,v.InsuranceExpiry,v.FireExtExpiry,v.FirstAidExpiry];return d.some(x=>daysUntil(x)>=0&&daysUntil(x)<=30);}).forEach(v=>{items.push({l:"EXPIRING SOON",m:`${v.Name} — compliance document expiring within 30 days`,c:"#f5a800",t:new Date().toLocaleTimeString()});});
+  const cnt=$("notif-count");if(cnt){cnt.textContent=items.length>0?items.length:"";cnt.style.display=items.length>0?"flex":"none";}
+  const list=$("notif-list");
+  if(list)list.innerHTML=items.length?items.map(i=>`<div style="display:flex;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);"><div style="flex-shrink:0;"><div style="font-size:8px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${i.c};">${i.l}</div><div style="font-size:8px;color:var(--muted);margin-top:2px;">${i.t}</div></div><div style="font-size:11px;line-height:1.5;">${i.m}</div></div>`).join(""):'<div style="padding:20px;text-align:center;font-size:11px;color:var(--green);">✓ No active alerts</div>';
+}
+function updateNotifCount(){
+  const bd=all().filter(a=>a.Status==="BREAKDOWN"||a.Status==="DOWN").length;
+  const po=all().filter(a=>Number(a.HrsToNextPM)<0).length;
+  const so=D.spares.filter(s=>s.Status==="STOCK-OUT").length;
+  const lvExp=(D.lv||[]).filter(v=>daysUntil(v.RoadworthyExpiry)<0||daysUntil(v.InsuranceExpiry)<0||daysUntil(v.FireExtExpiry)<0||daysUntil(v.FirstAidExpiry)<0).length;
+  const total=bd+po+so+lvExp;
+  const cnt=$("notif-count");if(cnt){cnt.textContent=total>0?total:"";cnt.style.display=total>0?"flex":"none";}
+}
+
+// ══ WO MODAL ════════════════════════════════════════════════════════════════
+let woCounter=9000;
+function openWOModal(){
+  const m=$("wo-modal");if(!m)return;
+  m.style.display="flex";
+  // Auto WO number
+  const existing=D.wo.map(w=>parseInt((w.ID||"WO-0").replace("WO-",""))||0);
+  woCounter=Math.max(...existing,woCounter)+1;
+  $("wo-id").value="WO-"+woCounter;
+  // Set today's date
+  const today=new Date().toISOString().split("T")[0];
+  $("wo-raised").value=today;
+  // Populate assets dropdown
+  const sel=$("wo-asset");sel.innerHTML="";
+  [...D.rc.map(a=>({id:a.ID,t:"RC"})),...D.dd.map(a=>({id:a.ID,t:"DD"})),...D.comp.map(a=>({id:a.ID,t:"COMPRESSOR"})),...(D.lv||[]).map(a=>({id:a.ID,t:"LV"}))].forEach(a=>{
+    const o=document.createElement("option");o.value=a.id;o.dataset.type=a.t;o.textContent=a.id+" ("+a.t+")";sel.appendChild(o);
+  });
+  woAssetChange();
+  // Populate techs dropdown
+  const ts=$("wo-tech");ts.innerHTML="";
+  D.techs.forEach(t=>{const o=document.createElement("option");o.value=t.Name;o.textContent=t.Name+" — "+t.Role;ts.appendChild(o);});
+  $("wo-preview").style.display="none";
+}
+function closeWOModal(){const m=$("wo-modal");if(m)m.style.display="none";}
+function woAssetChange(){
+  const sel=$("wo-asset");
+  const opt=sel.options[sel.selectedIndex];
+  if(opt)$("wo-atype").value=opt.dataset.type||"";
+}
+function previewWO(){
+  const row=[
+    $("wo-id").value,$("wo-asset").value,$("wo-atype").value,$("wo-type").value,
+    $("wo-pri").value,$("wo-sys").value,$("wo-desc").value,$("wo-tech").value,
+    $("wo-raised").value,$("wo-due").value,$("wo-hrs").value,$("wo-stat").value,
+    $("wo-rc").value,$("wo-cost").value
+  ].join(" | ");
+  const p=$("wo-preview");
+  p.style.display="block";
+  p.innerHTML='<div style="font-size:9px;color:var(--muted);margin-bottom:5px;">PASTE THIS ROW INTO YOUR GOOGLE SHEET — WorkOrders tab:</div>'+row.split(" | ").map((v,i)=>{
+    const hdrs=["ID","AssetID","AssetType","Type","Priority","System","Description","Technician","RaisedDate","DueDate","Hours","Status","RootCause","DowntimeCost"];
+    return `<span style="display:inline-block;background:var(--surface);border:1px solid var(--border2);border-radius:3px;padding:2px 6px;margin:2px;font-size:9px;"><span style="color:var(--muted);">${hdrs[i]}: </span>${v||"—"}</span>`;
+  }).join("");
+}
+function copyWORow(){
+  const row=[
+    $("wo-id").value,$("wo-asset").value,$("wo-atype").value,$("wo-type").value,
+    $("wo-pri").value,$("wo-sys").value,$("wo-desc").value,$("wo-tech").value,
+    $("wo-raised").value,$("wo-due").value,$("wo-hrs").value,$("wo-stat").value,
+    $("wo-rc").value,$("wo-cost").value
+  ].join("\t");
+  navigator.clipboard.writeText(row).then(()=>{
+    const btn=event.target;const orig=btn.textContent;
+    btn.textContent="✓ COPIED!";btn.style.background="linear-gradient(135deg,#00e087,#00b060)";
+    setTimeout(()=>{btn.textContent=orig;btn.style.background="";},2200);
+  });
+  previewWO();
+}
+
+// ══ CASCADE VISUAL ══════════════════════════════════════════════════════════
+function buildCascadeVisual(){
+  const el=$("cascade-visual");if(!el)return;
+  const pairs=D.rc.map(r=>{const comp=D.comp.find(c=>c.ID===r.ConnectedCompressor);return{rc:r,comp:comp};});
+  el.innerHTML=`<div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;">${pairs.map(({rc,comp})=>{
+    const ok=comp&&comp.Status!=="DOWN";
+    const lineCol=ok?"#00e087":"#ff3355";
+    const lineLabel=ok?"AIR SUPPLY OK":"NO AIR — CASCADE";
+    return `<div style="display:flex;flex-direction:column;align-items:center;gap:0;min-width:160px;">
+      <!-- COMPRESSOR BOX -->
+      <div style="background:var(--surface2);border:2px solid ${comp?lineCol+"66":"#5a6e8a"};border-radius:10px;padding:10px 14px;width:100%;text-align:center;">
+        <div style="font-size:8px;font-weight:700;color:var(--comp);font-family:'JetBrains Mono',monospace;letter-spacing:1px;margin-bottom:4px;">COMPRESSOR</div>
+        <div style="font-size:10px;font-weight:700;">${comp?comp.Name:"UNLINKED"}</div>
+        <div style="font-size:8px;color:var(--muted);margin:2px 0;">${comp?comp.Make+" "+comp.Model:""}</div>
+        ${comp?`<div style="display:inline-block;background:${lineCol}22;border:1px solid ${lineCol}55;border-radius:4px;padding:1px 6px;font-size:8px;font-weight:700;color:${lineCol};font-family:'JetBrains Mono',monospace;margin-top:4px;">${comp.Status}</div>`:""}
+      </div>
+      <!-- CONNECTION LINE -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;">
+        <div style="width:2px;height:12px;background:${lineCol};"></div>
+        <div style="background:${lineCol}22;border:1px solid ${lineCol}55;border-radius:4px;padding:2px 8px;font-size:7px;font-weight:700;color:${lineCol};font-family:'JetBrains Mono',monospace;white-space:nowrap;">${lineLabel}</div>
+        <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid ${lineCol};"></div>
+      </div>
+      <!-- RC RIG BOX -->
+      <div style="background:var(--surface2);border:2px solid ${sC(rc.Status)}66;border-radius:10px;padding:10px 14px;width:100%;text-align:center;">
+        <div style="font-size:8px;font-weight:700;color:var(--rc);font-family:'JetBrains Mono',monospace;letter-spacing:1px;margin-bottom:4px;">RC DRILLING RIG</div>
+        <div style="font-size:10px;font-weight:700;">${rc.Name}</div>
+        <div style="font-size:8px;color:var(--muted);margin:2px 0;">${rc.Site}</div>
+        <div style="display:inline-block;background:${sC(rc.Status)}22;border:1px solid ${sC(rc.Status)}55;border-radius:4px;padding:1px 6px;font-size:8px;font-weight:700;color:${sC(rc.Status)};font-family:'JetBrains Mono',monospace;margin-top:4px;">${rc.Status}</div>
+      </div>
+    </div>`;
+  }).join("")}</div>`;
+}
+
+// ══ COST TRACKER ════════════════════════════════════════════════════════════
+function buildCostTracker(){
+  const costs=D.costs||[];if(!costs.length)return;
+  const totalBudget=costs.reduce((s,c)=>s+Number(c.Budget||0),0);
+  const totalActual=costs.reduce((s,c)=>s+Number(c.Actual||0),0);
+  const variance=totalActual-totalBudget;
+  const overruns=costs.filter(c=>Number(c.Actual)>Number(c.Budget)).length;
+  const cp=$("cost-period-badge");if(cp)cp.textContent="PERIOD: "+(costs[0]?.Period||"Current");
+  $("cost-big").innerHTML=[
+    {l:"Total Budget",v:"$"+totalBudget.toLocaleString(),c:"#00c8f0"},
+    {l:"Total Actual Spend",v:"$"+totalActual.toLocaleString(),c:totalActual>totalBudget?"#ff3355":"#00e087"},
+    {l:"Variance",v:(variance>=0?"+$":"-$")+Math.abs(variance).toLocaleString(),c:variance>0?"#ff3355":"#00e087"},
+    {l:"Categories Over Budget",v:overruns,c:overruns>0?"#ff3355":"#00e087"},
+  ].map(k=>sumCard(k.v,k.l,k.c)).join("");
+  // Actual vs Budget bars
+  $("cost-avb").innerHTML=costs.map(c=>{
+    const pct=Math.min(Math.round(Number(c.Actual)/Number(c.Budget)*100),150);
+    const ov=Number(c.Actual)>Number(c.Budget);
+    const col=ov?"#ff3355":pct>85?"#f5a800":"#00e087";
+    return `<div style="margin-bottom:14px;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:11px;">${c.Category}</span><span style="font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:700;color:${col};">$${Number(c.Actual).toLocaleString()} / $${Number(c.Budget).toLocaleString()} ${ov?"▲ OVER":"✓"}</span></div><div style="position:relative;height:8px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="height:100%;width:${Math.min(pct,100)}%;background:${col};border-radius:4px;"></div></div><div style="font-size:9px;color:var(--muted);margin-top:2px;">${pct}% of budget used</div></div>`;
+  }).join("");
+  // By asset type (estimated split)
+  const rcShare=Math.round(totalActual*0.38),ddShare=Math.round(totalActual*0.27),compShare=Math.round(totalActual*0.23),lvShare=Math.round(totalActual*0.12);
+  $("cost-by-type").innerHTML=[{l:"RC Drilling Rigs",v:rcShare,c:"#00c8f0"},{l:"DD Rigs",v:ddShare,c:"#a855f7"},{l:"Compressors",v:compShare,c:"#f5a800"},{l:"Light Vehicles",v:lvShare,c:"#00b4a0"}].map(b=>`<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:11px;">${b.l}</span><span style="font-size:10px;font-weight:700;color:${b.c};font-family:'JetBrains Mono',monospace;">$${Number(b.v).toLocaleString()} (${Math.round(b.v/totalActual*100)}%)</span></div><div class="bt"><div class="bf" style="width:${Math.round(b.v/totalActual*100)}%;background:${b.c};"></div></div></div>`).join("");
+  // Maintenance type split (from WOs)
+  const pmHrs=D.wo.filter(w=>w.Type==="PM").reduce((s,w)=>s+Number(w.Hours||0),0);
+  const rxHrs=D.wo.filter(w=>w.Type==="REACTIVE").reduce((s,w)=>s+Number(w.Hours||0),0);
+  const cmHrs=D.wo.filter(w=>w.Type==="CORRECTIVE").reduce((s,w)=>s+Number(w.Hours||0),0);
+  const pdHrs=D.wo.filter(w=>w.Type==="PdM").reduce((s,w)=>s+Number(w.Hours||0),0);
+  const tHrs=pmHrs+rxHrs+cmHrs+pdHrs||1;
+  $("cost-maint-split").innerHTML=[{l:"Preventive (PM)",v:pmHrs,c:"#00e087"},{l:"Reactive",v:rxHrs,c:"#ff3355"},{l:"Corrective",v:cmHrs,c:"#00c8f0"},{l:"Predictive (PdM)",v:pdHrs,c:"#a855f7"}].map(b=>`<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span style="font-size:11px;">${b.l}</span><span style="font-size:10px;font-weight:700;color:${b.c};font-family:'JetBrains Mono',monospace;">${b.v}h (${Math.round(b.v/tHrs*100)}%)</span></div><div class="bt"><div class="bf" style="width:${Math.round(b.v/tHrs*100)}%;background:${b.c};"></div></div></div>`).join("");
+  // CPH chart - all assets
+  $("cost-cph").innerHTML=`<div style="display:flex;gap:5px;align-items:flex-end;height:110px;overflow-x:auto;">${[...all(),...(D.lv||[])].map(a=>{
+    const isLV=(D.lv||[]).includes(a);
+    const h=Math.min(Number(a.CostPerHour||a.CostPerKm||0),100);
+    const col=isLV?"#00b4a0":D.rc.includes(a)?"#00c8f0":D.dd.includes(a)?"#a855f7":"#f5a800";
+    const avgCPH=all().reduce((s,x)=>s+Number(x.CostPerHour||0),0)/all().length;
+    const over=Number(a.CostPerHour||a.CostPerKm||0)>avgCPH;
+    return `<div style="min-width:44px;flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;"><div style="font-size:8px;color:${over?"#ff3355":col};font-family:'JetBrains Mono',monospace;font-weight:700;">${isLV?"$"+a.CostPerKm+"/km":"$"+a.CostPerHour+"/h"}</div><div style="width:100%;height:${h}px;background:${over?"#ff335522":col+"22"};border:1px solid ${over?"#ff355544":col+"44"};border-radius:3px 3px 0 0;display:flex;align-items:flex-end;"><div style="width:100%;height:${h}px;background:${over?"#ff3355":col};border-radius:3px 3px 0 0;"></div></div><div style="font-size:7px;color:var(--muted);text-align:center;font-family:'JetBrains Mono',monospace;">${a.ID.replace("DGL-","")}</div></div>`;
+  }).join("")}</div><div style="font-size:9px;color:var(--muted);margin-top:8px;">Red bars = above fleet average cost per hour. RC=blue | DD=purple | Comp=amber | LV=teal</div>`;
+  // Overrun alerts
+  const ov=costs.filter(c=>Number(c.Actual)>Number(c.Budget));
+  $("cost-overrun").innerHTML=ov.length?ov.map(c=>{
+    const diff=Number(c.Actual)-Number(c.Budget);const pct=Math.round(diff/Number(c.Budget)*100);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);"><div><div style="font-size:12px;font-weight:700;">${c.Category}</div><div style="font-size:10px;color:var(--muted);">Budget: $${Number(c.Budget).toLocaleString()} | Actual: $${Number(c.Actual).toLocaleString()}</div></div><div style="text-align:right;"><div style="font-size:16px;font-weight:900;color:#ff3355;">+$${diff.toLocaleString()}</div><div style="font-size:9px;color:#ff3355;font-family:'JetBrains Mono',monospace;">${pct}% OVER</div></div></div>`;
+  }).join(""):'<div style="font-size:12px;color:var(--green);padding:16px;text-align:center;">✓ All categories within budget</div>';
+}
+
+
+function showTab(id,btn){document.querySelectorAll("[id^='tab-']").forEach(e=>e.classList.add("hidden"));const el=$("tab-"+id);if(el){el.classList.remove("hidden");el.classList.add("fade-in");}document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));if(btn)btn.classList.add("active");}
+const saved=localStorage.getItem("smartis-sid");if(saved)$("sheet-id-input").value=saved;
+</script>
+</body>
+</html>
