@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#080a16"/>
+<meta name="description" content="SMARTIS — Sign in"/>
+<title>Sign in · SMARTIS</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23346ee0'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='white'%3E%E2%9A%99%3C/text%3E%3C/svg%3E"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"/>
+
+<!-- Supabase client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<link rel="stylesheet" href="css/signin.css?v=1"/>
+</head>
+<body class="lg-locked">
+
+<div id="login-screen">
+  <canvas id="lg-canvas"></canvas>
+  <div class="lg-orb lg-o1"></div><div class="lg-orb lg-o2"></div><div class="lg-orb lg-o3"></div>
+  <div class="lg-grid"></div>
+
+  <div class="lg-stage">
+    <div class="lg-card" id="lg-card">
+      <a href="home.html" class="lg-back" aria-label="Back to home">
+        <i class="bi bi-arrow-left"></i>
+        <span>Home</span>
+      </a>
+
+      <div class="lg-logo-wrap">
+        <div class="lg-ring lg-r1"></div><div class="lg-ring lg-r2"></div>
+        <div class="lg-logo"><i class="bi bi-gear-wide-connected"></i></div>
+      </div>
+      <h1 class="lg-title">SMARTIS</h1>
+      <div class="lg-sub">SHADRACK'S MAINTENANCE &amp; RELIABILITY<br>INTELLIGENCE SYSTEM</div>
+      <div class="lg-company">DEEPROCK GHANA LIMITED</div>
+
+      <form id="lg-form" novalidate>
+        <div class="lg-field">
+          <i class="bi bi-person lg-ico"></i>
+          <input id="lg-user" type="text" placeholder=" " autocomplete="username" autocapitalize="none" spellcheck="false"/>
+          <label for="lg-user">Username</label>
+        </div>
+        <div class="lg-field">
+          <i class="bi bi-lock lg-ico"></i>
+          <input id="lg-pass" type="password" placeholder=" " autocomplete="current-password"/>
+          <label for="lg-pass">Password</label>
+          <button type="button" class="lg-eye" id="lg-eye" aria-label="Show password"><i class="bi bi-eye"></i></button>
+        </div>
+
+        <div class="lg-row">
+          <label class="lg-check"><input type="checkbox" id="lg-keep"/><span class="lg-box"><i class="bi bi-check-lg"></i></span>Keep me signed in</label>
+          <span class="lg-caps" id="lg-caps"><i class="bi bi-exclamation-triangle-fill"></i>CAPS LOCK</span>
+        </div>
+
+        <div class="lg-err" id="lg-err"></div>
+
+        <button type="submit" class="lg-btn" id="lg-btn">
+          <span id="lg-btn-txt">SIGN IN</span>
+          <i class="bi bi-arrow-right" id="lg-btn-ico"></i>
+        </button>
+      </form>
+
+      <div class="lg-foot">
+        <span class="lg-chip">RC RIGS</span>
+        <span class="lg-chip">DD RIGS</span>
+        <span class="lg-chip">COMPRESSORS</span>
+        <span class="lg-chip">LIGHT VEHICLES</span>
+      </div>
+    </div>
+
+    <div class="lg-status"><span class="lg-dot"></span>SECURE CONNECTION · SYSTEM ONLINE</div>
+  </div>
+
+  <div class="lg-welcome" id="lg-welcome">
+    <div class="lg-wcheck"><i class="bi bi-check-lg"></i></div>
+    <div class="lg-wt">WELCOME BACK</div>
+    <div class="lg-wn" id="lg-wname"></div>
+    <div class="lg-ws">LOADING FLEET INTELLIGENCE…</div>
+  </div>
+</div>
+
+<script>
+  // ─── SUPABASE CONFIG ────────────────────────────────────────────────
+  window.SMARTIS_SUPABASE = {
+    url: 'https://jvtbfnwmhnnovqzdkkgw.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2dGJmbndtaG5ub3ZxemRra2d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1OTAzNTMsImV4cCI6MjEwODE2NjM1M30.I1r-IQZ0GUQNMt64x8X2FMUIQBnduK590-LrJ6fNzy4'
+  };
+  window.sb = supabase.createClient(window.SMARTIS_SUPABASE.url, window.SMARTIS_SUPABASE.anonKey);
+</script>
+
+<script src="js/signin.js?v=1"></script>
+</body>
+</html>

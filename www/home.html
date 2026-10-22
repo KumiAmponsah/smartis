@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#0b0f19"/>
+<meta name="description" content="SMARTIS — Fleet maintenance & reliability intelligence for Deeprock Ghana Limited."/>
+<title>SMARTIS — Fleet Reliability Intelligence · Deeprock Ghana Limited</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23346ee0'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='white'%3E%E2%9A%99%3C/text%3E%3C/svg%3E"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"/>
+
+<link rel="stylesheet" href="css/home.css?v=1"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     TOP NAVIGATION
+     ═══════════════════════════════════════════════════════════════════ -->
+<header class="hp-nav">
+  <a href="home.html" class="hp-brand" aria-label="SMARTIS home">
+    <div class="hp-brand-icon"><i class="bi bi-gear-wide-connected"></i></div>
+    <div class="hp-brand-text">
+      <div class="hp-brand-name">SMARTIS</div>
+      <div class="hp-brand-sub">Deeprock Ghana · Fleet Intelligence</div>
+    </div>
+  </a>
+
+  <nav class="hp-nav-links" id="hp-nav-links">
+    <a href="#capabilities">Capabilities</a>
+    <a href="#fleet">Fleet</a>
+    <a href="#impact">Impact</a>
+    <a href="signin.html" class="hp-nav-cta">
+      <i class="bi bi-shield-lock-fill"></i>
+      Sign In
+    </a>
+  </nav>
+
+  <button class="hp-menu-btn" id="hp-menu-btn" aria-label="Open menu">
+    <i class="bi bi-list"></i>
+  </button>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     HERO — pure marketing, no form
+     ═══════════════════════════════════════════════════════════════════ -->
+<main id="top">
+
+<section class="hp-hero">
+  <div class="hp-hero-bg" aria-hidden="true">
+    <div class="hp-hero-orb hp-orb1"></div>
+    <div class="hp-hero-orb hp-orb2"></div>
+    <div class="hp-hero-grid"></div>
+    <canvas id="hp-canvas"></canvas>
+  </div>
+
+  <div class="hp-hero-inner">
+    <div class="hp-eyebrow">
+      <span class="hp-eyebrow-dot"></span>
+      DEEPROCK GHANA LIMITED · MAINTENANCE DIVISION
+    </div>
+
+    <h1 class="hp-h1">
+      Fleet maintenance intelligence<br/>
+      <span class="hp-h1-accent">built for drilling operations.</span>
+    </h1>
+
+    <p class="hp-lead">
+      SMARTIS gives your maintenance team real-time visibility into every RC rig, diamond drill,
+      external compressor and light vehicle — with cascading-failure detection, live PM tracking
+      and a cost model that makes every service decision defensible.
+    </p>
+
+    <div class="hp-hero-actions">
+      <a href="signin.html" class="hp-btn hp-btn-primary">
+        <i class="bi bi-shield-lock-fill"></i>
+        Sign In to Dashboard
+      </a>
+      <a href="#capabilities" class="hp-btn hp-btn-ghost">
+        Explore Capabilities <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="hp-hero-stats">
+      <div class="hp-stat">
+        <div class="hp-stat-num">4</div>
+        <div class="hp-stat-label">Asset classes tracked</div>
+      </div>
+      <div class="hp-stat">
+        <div class="hp-stat-num">14</div>
+        <div class="hp-stat-label">Intelligence modules</div>
+      </div>
+      <div class="hp-stat">
+        <div class="hp-stat-num">5<span class="hp-stat-unit">min</span></div>
+        <div class="hp-stat-label">Live auto-refresh</div>
+      </div>
+    </div>
+
+    <div class="hp-trust">
+      <div class="hp-trust-item"><i class="bi bi-check-circle-fill"></i> Encrypted credentials</div>
+      <div class="hp-trust-item"><i class="bi bi-check-circle-fill"></i> Row-level security</div>
+      <div class="hp-trust-item"><i class="bi bi-check-circle-fill"></i> Your data never leaves the browser</div>
+    </div>
+  </div>
+
+  <a href="#capabilities" class="hp-scroll-hint" aria-label="Scroll down">
+    <span>Scroll to explore</span>
+    <i class="bi bi-chevron-double-down"></i>
+  </a>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     CAPABILITIES
+     ═══════════════════════════════════════════════════════════════════ -->
+<section id="capabilities" class="hp-section">
+  <div class="hp-section-inner">
+    <div class="hp-section-head">
+      <div class="hp-tag">CAPABILITIES</div>
+      <h2 class="hp-h2">Everything a maintenance officer needs, in one system.</h2>
+      <p class="hp-sub">Built from real drilling operations — designed so the numbers make the next decision obvious.</p>
+    </div>
+
+    <div class="hp-cap-grid">
+      <article class="hp-cap">
+        <div class="hp-cap-ico" style="--c:#22c55e"><i class="bi bi-bar-chart-line-fill"></i></div>
+        <h3>Executive Summary</h3>
+        <p>One screen showing fleet availability, open work orders, downtime cost and the top three things to fix today.</p>
+      </article>
+
+      <article class="hp-cap">
+        <div class="hp-cap-ico" style="--c:#346ee0"><i class="bi bi-record-circle"></i></div>
+        <h3>RC &amp; DD Rig Health</h3>
+        <p>Per-system condition tracking across engine, hydraulics, rotation head, bean pump and track — with PM countdown.</p>
+      </article>
+
+      <article class="hp-cap">
+        <div class="hp-cap-ico" style="--c:#f5a524"><i class="bi bi-fan"></i></div>
+        <h3>Compressor Cascade Detection</h3>
+        <p>Instantly shows which RC rig loses air supply when a compressor goes down. No more guessing why the rig stopped.</p>
+      </article>
+
+      <article class="hp-cap">
+        <div class="hp-cap-ico" style="--c:#14b8a6"><i class="bi bi-truck"></i></div>
+        <h3>Light Vehicle Compliance</h3>
+        <p>Roadworthy, insurance, fire extinguisher and first-aid expiry — plus pre-start compliance, tyre tread and fuel trends.</p>
+      </article>
+
+      <article class="hp-cap">
+        <div class="hp-cap-ico" style="--c:#a855f7"><i class="bi bi-graph-up-arrow"></i></div>
+        <h3>Reliability Analytics</h3>
+        <p>Bathtub curve positioning, P-F interval tracking, RUL estimates and failure-mode frequency — the reliability engineer's toolkit.</p>
+      </article>
+
+      <article class="hp-cap">
+        <div class="hp-cap-ico" style="--c:#ef4444"><i class="bi bi-cash-coin"></i></div>
+        <h3>ROI &amp; Cost Justification</h3>
+        <p>A live cost model that translates breakdown reduction into dollars saved — ready to take to management.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     FLEET COVERAGE
+     ═══════════════════════════════════════════════════════════════════ -->
+<section id="fleet" class="hp-section hp-section-alt">
+  <div class="hp-section-inner">
+    <div class="hp-section-head">
+      <div class="hp-tag">FLEET COVERAGE</div>
+      <h2 class="hp-h2">Every asset class. One source of truth.</h2>
+      <p class="hp-sub">Each asset is tracked with its own system health, PM schedule and cost model — with automatic cross-asset relationships.</p>
+    </div>
+
+    <div class="hp-fleet-grid">
+      <div class="hp-fleet-card">
+        <div class="hp-fleet-ico"><i class="bi bi-record-circle"></i></div>
+        <div class="hp-fleet-body">
+          <div class="hp-fleet-name">RC Drilling Rigs</div>
+          <div class="hp-fleet-desc">Reverse circulation rigs — tracked with connected compressor, sample system, track and rotation head health.</div>
+        </div>
+        <div class="hp-fleet-tag">COMPRESSOR-LINKED</div>
+      </div>
+
+      <div class="hp-fleet-card">
+        <div class="hp-fleet-ico"><i class="bi bi-gem"></i></div>
+        <div class="hp-fleet-body">
+          <div class="hp-fleet-name">Diamond Drill Rigs</div>
+          <div class="hp-fleet-desc">Diamond drills — bean pump circulation, wireline winch, core barrel, mast &amp; feed and core recovery tracking.</div>
+        </div>
+        <div class="hp-fleet-tag">BEAN-PUMP DRIVEN</div>
+      </div>
+
+      <div class="hp-fleet-card">
+        <div class="hp-fleet-ico"><i class="bi bi-fan"></i></div>
+        <div class="hp-fleet-body">
+          <div class="hp-fleet-name">External Compressors</div>
+          <div class="hp-fleet-desc">Standalone assets with their own PM register — output, pressure, air-end and separator condition.</div>
+        </div>
+        <div class="hp-fleet-tag">CASCADE AWARE</div>
+      </div>
+
+      <div class="hp-fleet-card">
+        <div class="hp-fleet-ico"><i class="bi bi-truck"></i></div>
+        <div class="hp-fleet-body">
+          <div class="hp-fleet-name">Light Vehicles</div>
+          <div class="hp-fleet-desc">Pickups and light trucks — compliance expiry, pre-start inspections, tyre health and fuel consumption.</div>
+        </div>
+        <div class="hp-fleet-tag">COMPLIANCE TRACKED</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     IMPACT
+     ═══════════════════════════════════════════════════════════════════ -->
+<section id="impact" class="hp-section">
+  <div class="hp-section-inner">
+    <div class="hp-section-head">
+      <div class="hp-tag">WHY IT MATTERS</div>
+      <h2 class="hp-h2">Every hour of downtime has a price.</h2>
+      <p class="hp-sub">Compressor failures cascade to RC rigs. Bean pump failures halt diamond drills. SMARTIS quantifies both — so the fix gets funded.</p>
+    </div>
+
+    <div class="hp-impact-grid">
+      <div class="hp-impact-card">
+        <div class="hp-impact-num">$8,000<span>/hr</span></div>
+        <div class="hp-impact-label">Typical cost of rig downtime</div>
+        <div class="hp-impact-desc">A stuck compressor can idle an RC rig for a full shift. SMARTIS surfaces cascade risk before it becomes downtime.</div>
+      </div>
+
+      <div class="hp-impact-card">
+        <div class="hp-impact-num">40<span>%</span></div>
+        <div class="hp-impact-label">Breakdown reduction achievable</div>
+        <div class="hp-impact-desc">With disciplined PM compliance and P-F interval monitoring, reactive failures drop sharply in the first year.</div>
+      </div>
+
+      <div class="hp-impact-card">
+        <div class="hp-impact-num">2<span>min</span></div>
+        <div class="hp-impact-label">From sign-in to full picture</div>
+        <div class="hp-impact-desc">Connect a Google Sheet once. SMARTIS reads it live, refreshes every 5 minutes and remembers your session.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     FINAL CTA
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="hp-final-cta">
+  <div class="hp-final-inner">
+    <div class="hp-final-copy">
+      <h2 class="hp-h2">Ready to see the live fleet?</h2>
+      <p class="hp-sub">Sign in with your Deeprock credentials to open the full maintenance dashboard.</p>
+    </div>
+    <a href="signin.html" class="hp-btn hp-btn-primary hp-btn-large">
+      <i class="bi bi-shield-lock-fill"></i>
+      Sign In to SMARTIS
+    </a>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════════════ -->
+<footer class="hp-footer">
+  <div class="hp-footer-inner">
+    <div class="hp-footer-brand">
+      <div class="hp-brand-icon hp-brand-icon-sm"><i class="bi bi-gear-wide-connected"></i></div>
+      <div>
+        <div class="hp-footer-name">SMARTIS</div>
+        <div class="hp-footer-sub">Shadrack's Maintenance &amp; Reliability Intelligence System</div>
+      </div>
+    </div>
+    <div class="hp-footer-copy">
+      © <span id="hp-year"></span> Deeprock Ghana Limited · Maintenance Division
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Footer year
+  var y = document.getElementById('hp-year');
+  if (y) y.textContent = new Date().getFullYear();
+
+  // Mobile menu
+  var btn = document.getElementById('hp-menu-btn');
+  var nav = document.getElementById('hp-nav-links');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      nav.classList.toggle('hp-nav-open');
+      var open = nav.classList.contains('hp-nav-open');
+      btn.innerHTML = open ? '<i class="bi bi-x-lg"></i>' : '<i class="bi bi-list"></i>';
+    });
+    nav.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        nav.classList.remove('hp-nav-open');
+        btn.innerHTML = '<i class="bi bi-list"></i>';
+      });
+    });
+  }
+
+  // ── Particle network on hero ──
+  var cv = document.getElementById('hp-canvas');
+  if (!cv) return;
+  var ctx = cv.getContext('2d');
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var W, H, pts;
+
+  function resize(){
+    W = cv.width  = cv.offsetWidth  * DPR;
+    H = cv.height = cv.offsetHeight * DPR;
+    var n = Math.min(60, Math.max(20, Math.floor(cv.offsetWidth * cv.offsetHeight / 22000)));
+    pts = [];
+    for (var i = 0; i < n; i++){
+      pts.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - .5) * .35 * DPR,
+        vy: (Math.random() - .5) * .35 * DPR,
+        r: (Math.random() * 1.4 + .6) * DPR
+      });
+    }
+  }
+
+  function draw(){
+    if (!ctx) return;
+    ctx.clearRect(0, 0, W, H);
+    var link = 140 * DPR;
+    for (var i = 0; i < pts.length; i++){
+      var a = pts[i];
+      a.x += a.vx; a.y += a.vy;
+      if (a.x < 0 || a.x > W) a.vx *= -1;
+      if (a.y < 0 || a.y > H) a.vy *= -1;
+      ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, 6.283);
+      ctx.fillStyle = 'rgba(140,170,255,.55)'; ctx.fill();
+      for (var j = i + 1; j < pts.length; j++){
+        var b = pts[j];
+        var dx = a.x - b.x, dy = a.y - b.y;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < link){
+          ctx.strokeStyle = 'rgba(120,160,255,' + (0.18 * (1 - d / link)) + ')';
+          ctx.lineWidth = .8 * DPR;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+})();
+</script>
+
+</body>
+</html>
